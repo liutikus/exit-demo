@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+:root{
+  --color-accent: #4BE39C;
+  --color-accent-rgb: 75,227,156;
+  --color-black: #121212;
+  --color-light-black: rgba(18, 18, 18, 0.05);
+  --color-black-rgb: 18,18,18;
+  --color-light-gray: #FAFAFA;
+  --color-gray: #757575;
+  --color-gray-rgb: 117,117,117;
+  --color-red:#D3000D;
+  --color-gold:#FFB000;
+  --color-purple:#4F1E97;
+  
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
