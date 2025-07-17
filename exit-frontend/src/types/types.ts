@@ -61,10 +61,30 @@ export type FiltredData = {
     name:string,
     products:Product[],
     hex_code:string | undefined
+    slug:string
 }
 
 export type FilterGroup = {
     key:string,
-    item:FiltredData[]
+    title:string
+    item:FiltredData[] 
 
+}
+
+export type PriceRange = {
+    minPrice:number
+    maxPrice:number
+}
+
+export type StockCount={
+    is_in_stock: boolean,
+    count:number
+}
+
+export type SelectedFilters = {
+      size: string[];
+  colors: string[];
+  brand: string[];
+  product_type: string[];
+  is_in_stock:string[]
 }

@@ -8,7 +8,7 @@ label:string
 
 const FilterCard = ({ children, hasSubCard, label} : FilterCardProps) => {
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   return (
     <div>

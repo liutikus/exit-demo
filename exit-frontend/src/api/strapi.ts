@@ -1,3 +1,5 @@
+import type { PriceRange, SelectedFilters } from "../types/types";
+
 export const BaseURL = import.meta.env.VITE_API_URL;
 
 export const fetchCategories = async () => {
@@ -14,9 +16,11 @@ export const fetchProducts = async (currentPage : number, pageSize : number ) =>
 };
 
 export const fetchProductsData = async (
-  currentPage : number,
-  pageSize : number,
-  sort?:string,
+  currentPage: number,
+  pageSize: number,
+  priceRange: PriceRange,
+  filters?: SelectedFilters,
+  sort?: string
 ) => {
   const url = new URL(`${BaseURL}/api/products`);
 
@@ -24,25 +28,64 @@ export const fetchProductsData = async (
   url.searchParams.append("pagination[pageSize]", pageSize.toString());
   url.searchParams.append("populate[mainImage]", "true");
   url.searchParams.append("populate[colors]", "true");
+  url.searchParams.append("populate[size]", "true");
+  url.searchParams.append("populate[product_type]", "true");
+  url.searchParams.append("populate[brand]", "true");
 
+  if (sort) {
+    url.searchParams.append("sort", sort);
+  }
 
-  if(sort){
-    url.searchParams.append("sort", sort)
+  if (priceRange?.minPrice) {
+    url.searchParams.append("filters[start_price][$gte]", priceRange.minPrice.toString());
   }
-  const res = await fetch(url.toString()) 
-  
-if (!res.ok) {
-  const error = await res.text();
-  console.error("Error response:", error);
-  throw new Error(`HTTP ${res.status}: ${error}`);
-}
-  const data = await res.json();
-  return{
-    products:data.data,
-    metaPagination: data.meta.pagination
+
+  if (priceRange?.maxPrice) {
+    url.searchParams.append("filters[start_price][$lte]", priceRange.maxPrice.toString());
   }
+
  
+  const relationFields = ["size", "colors", "brand", "product_type"];
+
+  if (filters) {
+    Object.entries(filters).forEach(([key, values]) => {
+      if (!values || !Array.isArray(values)) return;
+
+      if (relationFields.includes(key)) {
+        values.forEach((val) => {
+          if (val) {
+            url.searchParams.append(`filters[${key}][slug][$in]`, val);
+          }
+        });
+      }
+
+      
+      if (key === "is_in_stock") {
+        values.forEach((val) => {
+          if (val === "true" || val === "false") {
+            url.searchParams.append(`filters[is_in_stock][$eq]`, val);
+          }
+        });
+      }
+    });
+  }
+
+  const res = await fetch(url.toString());
+
+  if (!res.ok) {
+    const error = await res.text();
+    console.error("Error response:", error);
+    throw new Error(`HTTP ${res.status}: ${error}`);
+  }
+
+  const data = await res.json();
+
+  return {
+    products: data.data,
+    metaPagination: data.meta.pagination
+  };
 };
+
 
 export const fetchMainHero = async () => {
   const res = await fetch(`${BaseURL}/api/main-page-hero?populate=*`);
@@ -105,8 +148,8 @@ export const fetchColors = async () => {
 };
 
 
-export const fetchGadgetType = async () => {
-  const res = await fetch(`${BaseURL}/api/gadget-types?populate=*`);
+export const fetchProductType = async () => {
+  const res = await fetch(`${BaseURL}/api/product-types?populate=*`);
   const data = await res.json();
   return data.data;
 };
@@ -115,4 +158,32 @@ export const fetchBrands = async () => {
   const res = await fetch(`${BaseURL}/api/brands?populate=*`);
   const data = await res.json();
   return data.data;
+};
+
+
+export const fetchPriceRange = async () => {
+  const res = await fetch(`${BaseURL}/api/products/price-range`);
+  const data = await res.json();
+  return data;
+};
+
+export const fetchStockCounts = async () => {
+  const promises = ["true", "false"].map(async (val) => {
+    const res = await fetch(`${BaseURL}/api/products?filters[is_in_stock][$eq]=${val}&pagination[pageSize]=1`);
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Fetch failed: ${res.status} - ${errorText}`);
+    }
+
+    const data = await res.json();
+    return {
+      is_in_stock: val === "true",
+      count: data.meta.pagination.total
+    };
+  });
+
+  const results = await Promise.all(promises);
+  console.log(results);
+  return results;
 };

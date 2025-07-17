@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import PaddingContainer from "../PaddingContainer"
-import type { Category, FilterGroup, FiltredData, Product, ProductsData } from "../../types/types"
-import {  fetchBrands, fetchCategories, fetchColors, fetchGadgetType, fetchProductsData, fetchSizes } from "../../api/strapi"
+import type { Category, FilterGroup, FiltredData, PriceRange, Product, ProductsData, SelectedFilters, StockCount } from "../../types/types"
+import {  fetchBrands, fetchCategories, fetchColors, fetchProductType, fetchPriceRange, fetchProductsData, fetchSizes, fetchStockCounts } from "../../api/strapi"
 import SimpleBtn from "../buttons/SimpleBtn"
 import FilterIcon from "../../assets/icons/filter-icon.svg?react"
 import ProductCard from "../card-components/ProductCard"
@@ -10,61 +10,100 @@ import {  useSearchParams } from "react-router"
 import PaginationBtns from "./PaginationBtns"
 import SortComponent from "./SortComponent"
 import FilterSideBar from "./FilterSideBar"
+import { useDebounce } from "../../data/useDebounce"
+import ProductGrid from "./ProductGrid"
 
 const ShopSection = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const pageParam = Number(searchParams.get("page")) || 1;
   const sortParam = searchParams.get("sort") ||"title:asc"
+  const priceMinParam = Number(searchParams.get("minPrice")) || 0;
+  const priceMaxParam = Number(searchParams.get("maxPrice")) || 100000;
+
   
     const [currentSort, setCurrentSort] = useState(sortParam)
     const [currentPage, setCurrentPage] = useState(pageParam);
     const [productsData, setProductsData] = useState<ProductsData | null>(null);
     const [products, setProducts] = useState<Product[] | null>(null);
     const [categories, setCategories] = useState<Category[] | null>(null)
-    const [isFiltersOpen, setIsFiltersOpen] = useState(true)
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false)
     const [sizes, setSizes] = useState<FiltredData[] | null>(null)
     const [colors, setColors] = useState<FiltredData[] | null>(null)
     const [brands, setBrands] = useState<FiltredData[] | null>(null)
-    const [gadgetTypes, setGadgetTypes] = useState<FiltredData[] | null>(null)
+    const [productTypes, setProductTypes] = useState<FiltredData[] | null>(null)
+    const [stockCounts, setStockCounts] = useState<StockCount[] | null>(null)
     const [filtersData,setFiltersData] = useState<FilterGroup[] | null>(null)
+    const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
+    const [selectedPriceRange, setSelectedPriceRange] = useState<[number, number]>([priceMinParam, priceMaxParam])
+   const [selectedFilters, setSelectedFilters] = useState<SelectedFilters>({
+  size: [],
+  colors: [],
+  brand: [],
+  product_type: [],
+  is_in_stock:[]
+});
+
+    const debouncePriceRange= useDebounce(selectedPriceRange, 400)
+
     
 
- useEffect(() => {
+    
+
+useEffect(() => {
   const fetchFilters = async () => {
-    try {   
-      const [sizes, colors, brands, gadgetTypes] = await Promise.all([
+    try {
+      const [sizes, colors, brands, productTypes, priceRange,stockCounts ] = await Promise.all([
         fetchSizes(),
         fetchColors(),
         fetchBrands(),
-        fetchGadgetType()
+        fetchProductType(),
+        fetchPriceRange(),
+        fetchStockCounts()
       ]);
+
       setSizes(sizes);
       setColors(colors);
       setBrands(brands);
-      setGadgetTypes(gadgetTypes);
+      setProductTypes(productTypes);
+      setPriceRange(priceRange);
+      setStockCounts(stockCounts)
 
       setFiltersData([
-        {key:"sizes", item:sizes},
-        {key:"colors", item:colors},
-        {key:"brands", item:brands},
-        {key:"gadgetTypes", item:gadgetTypes},
-      ])
+        { key: "size",title:"Size", item: sizes },
+        { key: "colors",title:"Color", item: colors },
+        { key: "brand",title:"Brand", item: brands },
+        { key: "product_type",title:"Tip Produs", item: productTypes },
+      ]);
     } catch (err) {
       console.error(err);
     }
-};
+  };
 
-fetchFilters();
+  fetchFilters();
 }, []);
-console.log(filtersData)
 
 useEffect(() => {
   const newPage = Number(searchParams.get("page")) || 1;
   const newSort = searchParams.get("sort") || "title:asc";
+  const newMinPrice = Number(searchParams.get("minPrice")) || priceRange?.minPrice || 0;
+  const newMaxPrice = Number(searchParams.get("maxPrice")) || priceRange?.maxPrice || 10000;
+  const syncFiltersFromURL = () => {
+    const getParam = (key: string) => searchParams.getAll(key);
+    setSelectedFilters({
+      size: getParam("size"),
+      colors: getParam("colors"),
+      brand: getParam("brand"),
+      product_type: getParam("product_type"),
+      is_in_stock:getParam("is_in_stock")
+    });
+  };
+
 
   setCurrentPage(newPage);
   setCurrentSort(newSort);
+  setSelectedPriceRange([newMinPrice, newMaxPrice])
+  syncFiltersFromURL()
 }, [searchParams]);
 
 
@@ -73,14 +112,18 @@ useEffect(() => {
   }, [pageParam]);
 
   useEffect(() => {
-
-    fetchProductsData(currentPage, pageSize, currentSort)
+    fetchProductsData(currentPage, pageSize,
+        {
+            minPrice:selectedPriceRange[0],
+            maxPrice: selectedPriceRange[1]
+        },
+         selectedFilters,currentSort)
       .then((data) => {
         setProductsData(data);
         setProducts(data.products);
       })
       .catch(console.error);
-  }, [currentPage, currentSort]);
+  }, [currentPage, currentSort, debouncePriceRange]);
 
   useEffect(()=>{
     fetchCategories()
@@ -97,6 +140,16 @@ useEffect(() => {
   });
 };
 
+ const handlePriceChange = (range: [number, number]) => {
+    setSelectedPriceRange(range);
+    setSearchParams((params) => {
+      params.set("minPrice", range[0].toString());
+      params.set("maxPrice", range[1].toString());
+      params.set("page", "1"); 
+      return params;
+    });
+  };
+
 const handlePageChange = (page: number) => {
   setSearchParams(params => {
     params.set("page", page.toString());
@@ -105,20 +158,36 @@ const handlePageChange = (page: number) => {
   });
 };
 
+const handleFilterParamChange = (key: string, value: string) => {
+  setSearchParams((prev) => {
+    const current = new Set(prev.getAll(key));
+    current.has(value) ? current.delete(value) : current.add(value);
+    prev.delete(key);
+    current.forEach((val) => prev.append(key, val));
+    prev.set("page", "1");
+    return prev;
+  });
+};
+
   return (
     <section>
         <PaddingContainer>
             <div className="flex">
-            <div className="pr-15">
+            <div >
                 <FilterSideBar 
                 categories={categories}
                 isFiltersOpen={isFiltersOpen}
                 filtersData={filtersData}
+                priceRange={priceRange}
+                onPriceChange={handlePriceChange}
+                selectedPriceRange={selectedPriceRange}
+                onFilterChange={handleFilterParamChange}
+                stockCounts={stockCounts}
                 />
             </div>
 
             <div>
-                <div className="flex items-center gap-6">
+                <div className="flex flex-col md:flex-row  md:items-center gap-2 md:gap-6 ">
                     <p>{productsData?.metaPagination.total} Produse</p>
                     <SimpleBtn isSquare={false}>
                         <div
@@ -131,18 +200,9 @@ const handlePageChange = (page: number) => {
                     </SimpleBtn>
                     <SortComponent currentSort={currentSort} handleSort={handleSort}/>
                 </div>
-                <div className="py-10">
-                    <div className="flex flex-wrap gap-6 pb-6">
-                        {products?.map((product)=>(
-                            <div
-                            key={product.id}
-                            >
-                            <ProductCard product={product} isDark={false}/>
-                            </div>
-                        ))}
-                    </div>
-                    <PaginationBtns productsData={productsData} currentPage={currentPage} handlePageChange={handlePageChange}/>
-                </div>
+                <ProductGrid products = {products}/>
+                <PaginationBtns productsData={productsData} currentPage={currentPage} handlePageChange={handlePageChange}/>
+
             </div>
             </div>
         </PaddingContainer>

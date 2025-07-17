@@ -85,7 +85,7 @@ const NavBar = ({isDark}: NavProps) => {
       </PaddingContainer>
 
       </div>
-      <SubNav/>
+      {/* <SubNav/> */}
 
       </div>
     </nav>

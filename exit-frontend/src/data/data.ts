@@ -13,7 +13,7 @@ import TelegramIcon from "../assets/social-icons/telegram-icon.svg?react"
 
 
 
-export const pageSize = 1;
+export const pageSize = 20;
 
 export const services = [{
     title: "Personalizarea Gadgetului",
@@ -175,9 +175,11 @@ export const allowedCategories = ["cellphones-and-accessories", "mac-book-and-co
 
 export const stockOptions =[{
     title: "In Stock",
-    value:"isInStock"
+    slug:"is_in_stock",
+    value:"true"
 },{
     title: "Out of Stock",
-    value:"isOutStock"
+    slug:"is_in_stock",
+    value:"false"
 },]
 

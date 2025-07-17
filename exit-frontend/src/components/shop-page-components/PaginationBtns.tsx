@@ -8,6 +8,7 @@ type PaginationBtnsProps = {
 
 const PaginationBtns = ({productsData, currentPage, handlePageChange} : PaginationBtnsProps) => {
   return (
+    <div className="">
     <div className="flex items-center gap-2 justify-end">
        <button
     onClick={() => handlePageChange(1)}
@@ -59,6 +60,8 @@ const PaginationBtns = ({productsData, currentPage, handlePageChange} : Paginati
       {productsData?.metaPagination.pageCount}
     </button>
   )}
+    </div>
+
     </div>
   )
 }
