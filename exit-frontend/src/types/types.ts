@@ -97,6 +97,7 @@ export type CategoryProductCount={
     breakdown:[
         {
             id:number,
+            slug:string
             productCount:number
         }
     ]

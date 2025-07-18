@@ -24,14 +24,14 @@ const FilterSideBar = ({filtersData,onFilterChange, stockCounts, selectedPriceRa
           isFiltersOpen ? " opacity-100 translate-y-0" : "max-w-0 opacity-0 -translate-y-2"
         }`}
       >
-        {categories?.map(({title, id, slug, subCategories,products, })=>(
+        {categories?.map(({title, id, slug, subCategories, })=>(
             <div
             key={id}
             >
                     <CategoryCard 
                     categoryId={id}
                     title={title} 
-                    slug={slug} 
+                    categorySlug={slug} 
                     subCategories={subCategories}
                     />  
             </div>

@@ -8,13 +8,13 @@ import type { Category, CategoryProductCount } from "../../types/types"
 import { fetchCategoryProductsCount } from "../../api/strapi"
 
 type CategoryCardProps = {
-  slug: string
+  categorySlug: string
   title: string
   subCategories: Category[]
   categoryId: number
 }
 
-const CategoryCard = ({ slug, categoryId, title, subCategories }: CategoryCardProps) => {
+const CategoryCard = ({ categorySlug, categoryId, title, subCategories }: CategoryCardProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [productCount, setProductCount] = useState<CategoryProductCount | null>(null)
 
@@ -24,12 +24,13 @@ const CategoryCard = ({ slug, categoryId, title, subCategories }: CategoryCardPr
       .catch(console.error)
   }, [categoryId])
 
-  const getSubCategoriesCount = (subCategoryId: number): number => {
-    const found = productCount?.breakdown.find(({ id }) =>{
-       id === subCategoryId
-      console.log(id===subCategoryId)
+  const getSubCategoriesCount = (subCategorySlug: string): number => {
+    const found = productCount?.breakdown.find(({ slug }) =>{
+       slug === subCategorySlug
+       console.log(typeof slug, slug)
+       console.log(typeof subCategorySlug, subCategorySlug)
       })
-    console.log(productCount?.breakdown)
+      console.log(productCount?.breakdown.find(({slug})=> slug === "i-phone"), subCategorySlug)
     return found?.productCount ?? 0
   }
 
@@ -54,7 +55,7 @@ const CategoryCard = ({ slug, categoryId, title, subCategories }: CategoryCardPr
     <div className="border-1 p-2 border-[rgba(var(--color-gray-rgb),0.26)] rounded-xl my-4">
       <div className="flex gap-4 justify-between items-center">
         <div className="flex gap-3 items-center">
-          {getCategoryIcon(slug)}
+          {getCategoryIcon(categorySlug)}
           <h3 className="font-bold w-max">{title}</h3>
           <p className="p-1 rounded-md text-xs px-2 border-1 border-[var(--color-black)] font-bold">
             {productCount?.total ?? 0}
@@ -77,11 +78,11 @@ const CategoryCard = ({ slug, categoryId, title, subCategories }: CategoryCardPr
           isOpen ? "opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
         }`}
       >
-        {subCategories.map(({ title, id }, index) => (
+        {subCategories.map(({ title, slug }, index) => (
           <div key={index} className="py-2 opacity-70 flex gap-2 items-center">
             <button className="text-sm cursor-pointer">{title}</button>
             <p className="p-1 rounded-md text-xs px-2 border-1 border-[var(--color-black)] font-bold opacity-50">
-              {getSubCategoriesCount(id)}
+              {getSubCategoriesCount(slug)}
             </p>
           </div>
         ))}
