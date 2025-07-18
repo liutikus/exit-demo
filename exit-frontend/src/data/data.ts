@@ -13,7 +13,7 @@ import TelegramIcon from "../assets/social-icons/telegram-icon.svg?react"
 
 
 
-export const pageSize = 20;
+export const pageSize = 10;
 
 export const services = [{
     title: "Personalizarea Gadgetului",

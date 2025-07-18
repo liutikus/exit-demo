@@ -18,17 +18,22 @@ const FilterSideBar = ({filtersData,onFilterChange, stockCounts, selectedPriceRa
 
 
   return (
-    <div className={`${isFiltersOpen ? "pr-5" : "pr-0"}`}>
+    <div className={`${isFiltersOpen ? "pr-5 h-full" : "pr-0 h-0"}`}>
       <div
        className={`overflow-hidden py-1 transition-all  duration-500 ease-in-out transform ${
           isFiltersOpen ? " opacity-100 translate-y-0" : "max-w-0 opacity-0 -translate-y-2"
         }`}
       >
-        {categories?.map(({title, id, slug, subCategories})=>(
+        {categories?.map(({title, id, slug, subCategories,products, })=>(
             <div
             key={id}
             >
-                    <CategoryCard title={title} slug={slug} subCategories={subCategories} />  
+                    <CategoryCard 
+                    categoryId={id}
+                    title={title} 
+                    slug={slug} 
+                    subCategories={subCategories}
+                    />  
             </div>
         ))}
         <div>

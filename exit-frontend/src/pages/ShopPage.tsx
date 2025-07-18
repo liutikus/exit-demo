@@ -5,7 +5,7 @@ import ShopSection from "../components/shop-page-components/ShopSection"
 
 const ShopPage = () => {
   return (
-    <div>
+    <div className="bg-[#F5F5F7]">
       <NavBar isDark={false}/>
       <ShopHero/>
       <ShopSection/>

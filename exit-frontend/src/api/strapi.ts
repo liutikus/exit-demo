@@ -5,6 +5,7 @@ export const BaseURL = import.meta.env.VITE_API_URL;
 export const fetchCategories = async () => {
   const res = await fetch(`${BaseURL}/api/categories?populate=*`);
   const data = await res.json();
+  console.log(data.data)
   return data.data;
 };
 
@@ -167,6 +168,12 @@ export const fetchPriceRange = async () => {
   return data;
 };
 
+export const fetchCategoryProductsCount = async (categoryId:number) => {
+  const res = await fetch(`${BaseURL}/api/categories/${categoryId}/product-count`);
+  const data = await res.json();
+  return data;
+};
+
 export const fetchStockCounts = async () => {
   const promises = ["true", "false"].map(async (val) => {
     const res = await fetch(`${BaseURL}/api/products?filters[is_in_stock][$eq]=${val}&pagination[pageSize]=1`);
@@ -184,6 +191,5 @@ export const fetchStockCounts = async () => {
   });
 
   const results = await Promise.all(promises);
-  console.log(results);
   return results;
 };

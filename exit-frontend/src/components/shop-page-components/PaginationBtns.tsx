@@ -8,7 +8,7 @@ type PaginationBtnsProps = {
 
 const PaginationBtns = ({productsData, currentPage, handlePageChange} : PaginationBtnsProps) => {
   return (
-    <div className="">
+    <div className="absolute right-0 bottom-0">
     <div className="flex items-center gap-2 justify-end">
        <button
     onClick={() => handlePageChange(1)}

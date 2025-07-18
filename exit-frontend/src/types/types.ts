@@ -2,6 +2,7 @@ export type Category = {
     title: string,
     slug:string,
     id:number,
+    products:Product[],
     subCategories:[Category]
 }
 
@@ -87,4 +88,16 @@ export type SelectedFilters = {
   brand: string[];
   product_type: string[];
   is_in_stock:string[]
+}
+
+
+
+export type CategoryProductCount={
+    total:number,
+    breakdown:[
+        {
+            id:number,
+            productCount:number
+        }
+    ]
 }

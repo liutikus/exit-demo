@@ -2,16 +2,12 @@ import { useEffect, useState } from "react"
 import PaddingContainer from "../PaddingContainer"
 import type { Category, FilterGroup, FiltredData, PriceRange, Product, ProductsData, SelectedFilters, StockCount } from "../../types/types"
 import {  fetchBrands, fetchCategories, fetchColors, fetchProductType, fetchPriceRange, fetchProductsData, fetchSizes, fetchStockCounts } from "../../api/strapi"
-import SimpleBtn from "../buttons/SimpleBtn"
-import FilterIcon from "../../assets/icons/filter-icon.svg?react"
-import ProductCard from "../card-components/ProductCard"
 import { allowedCategories, pageSize } from "../../data/data"
 import {  useSearchParams } from "react-router"
-import PaginationBtns from "./PaginationBtns"
-import SortComponent from "./SortComponent"
 import FilterSideBar from "./FilterSideBar"
 import { useDebounce } from "../../data/useDebounce"
 import ProductGrid from "./ProductGrid"
+import CategoriesFilter from "./CategoriesFilter"
 
 const ShopSection = () => {
 
@@ -135,7 +131,7 @@ useEffect(() => {
   const newSort = e.target.value;
   setSearchParams(params => {
     params.set("sort", newSort);
-    params.set("page", "1"); // reset to page 1 when sorting
+    params.set("page", "1"); 
     return params;
   });
 };
@@ -170,9 +166,9 @@ const handleFilterParamChange = (key: string, value: string) => {
 };
 
   return (
-    <section>
+    <section className="pb-4">
         <PaddingContainer>
-            <div className="flex">
+            <div className="flex ">
             <div >
                 <FilterSideBar 
                 categories={categories}
@@ -186,22 +182,23 @@ const handleFilterParamChange = (key: string, value: string) => {
                 />
             </div>
 
-            <div>
-                <div className="flex flex-col md:flex-row  md:items-center gap-2 md:gap-6 ">
-                    <p>{productsData?.metaPagination.total} Produse</p>
-                    <SimpleBtn isSquare={false}>
-                        <div
-                         className="flex gap-2 items-center"
-                         onClick={()=> setIsFiltersOpen(!isFiltersOpen)}
-                         >
-                            <FilterIcon className="w-auto h-[14px]"/>
-                            <p>{isFiltersOpen ? "Hide Filters" : "Open Filters"}</p>
-                        </div>
-                    </SimpleBtn>
-                    <SortComponent currentSort={currentSort} handleSort={handleSort}/>
-                </div>
-                <ProductGrid products = {products}/>
-                <PaginationBtns productsData={productsData} currentPage={currentPage} handlePageChange={handlePageChange}/>
+            <div className="w-full">
+               <CategoriesFilter
+                  productsData={productsData}
+                  isFiltersOpen={isFiltersOpen}
+                  handleOpenFilter={()=>setIsFiltersOpen(!isFiltersOpen)}
+                  currentSort={currentSort}
+                     handleSort={handleSort}
+               />
+                
+                <ProductGrid
+                 products = {products}
+                  productsData={productsData}
+                 currentPage={currentPage} 
+                 handlePageChange={handlePageChange}
+                 />
+
+                
 
             </div>
             </div>

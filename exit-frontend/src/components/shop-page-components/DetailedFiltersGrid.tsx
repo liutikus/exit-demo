@@ -35,8 +35,10 @@ const DetailedFiltersGrid = ({filtersData,selectedPriceRange,stockCounts, onFilt
                     </div>
                         <p className="py-1.5 rounded-md px-3 border-1" >
                             
-                           { stockCounts?.map(({is_in_stock, count})=>(
-                            <span>
+                           { stockCounts?.map(({is_in_stock, count, }, index)=>(
+                            <span 
+                            key={index}
+                            >
                                 {is_in_stock.toString() === value ? count : null}
 
                             </span>

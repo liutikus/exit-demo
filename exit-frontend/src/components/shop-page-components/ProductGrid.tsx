@@ -1,16 +1,19 @@
-import type { Product } from "../../types/types"
+import type { Product, ProductsData } from "../../types/types"
 import ProductCard from "../card-components/ProductCard"
+import PaginationBtns from "./PaginationBtns"
 
 type ProductGridProps = {
     products: Product[] | null
+       productsData: ProductsData | null,
+        currentPage: number,
+        handlePageChange: (page:number)=>void
 }
 
-const ProductGrid = ({products}: ProductGridProps) => {
+const ProductGrid = ({products, productsData, currentPage, handlePageChange}: ProductGridProps) => {
   return (
-    <div className="py-10">
+    <div className="py-10 relative">
                     <div
-                    //  className="flex flex-wrap gap-4 justify-center sm:justify-start pb-6"
-                     className="grid grid-cols-1 place-items-center"
+                     className="grid grid-cols-[repeat(auto-fit,_minmax(245px,_1fr))] gap-6"
                      >
                         {products?.map((product)=>(
                             <div
@@ -26,6 +29,10 @@ const ProductGrid = ({products}: ProductGridProps) => {
                             </div>
                         ))}
                     </div>
+                    <PaginationBtns 
+                productsData={productsData}
+                 currentPage={currentPage} 
+                 handlePageChange={handlePageChange}/>
                 </div>
   )
 }

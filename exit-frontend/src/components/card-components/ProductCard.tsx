@@ -15,7 +15,7 @@ const ProductCard = ({ product, isDark }: ProductCardProps) => {
 
     return (
 
-       <div className="relative flex flex-col w-[260px] h-[390px]  border-1 px-4 pt-6 pb-4 rounded-xl border-[rgba(var(--color-gray-rgb),0.26)]">
+       <div className="relative flex flex-col w-[270px] shadow-sm bg-white h-[390px]  border-1 px-4 pt-6 pb-4 rounded-xl border-[rgba(var(--color-gray-rgb),0.26)]">
  
   <SpecialOfferIcons
     isNew={product.is_new}
@@ -39,7 +39,7 @@ const ProductCard = ({ product, isDark }: ProductCardProps) => {
     {product.colors.slice(0, 5).map(({ hex_code }, index) => (
       <div key={index} className="flex items-center">
         <div
-          className="h-[12px] w-[12px] rounded-full border-1 border-[var(--color-gray)]"
+          className="h-[12px] w-[12px] rounded-full border-1 border-[var(--color-light-black)]"
           style={{ backgroundColor: hex_code }}
         />
         {index === 4 && product.colors.length > 5 && (
