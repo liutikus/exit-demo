@@ -11,11 +11,12 @@ type FilterSideBarProps ={
     stockCounts: StockCount[] | null
     onPriceChange:(range:[number, number])=>void;
     onFilterChange: (key:string, value:string)=>void;
+    handleCategoryChange: (slug: string[]) => void
 }
 
-const FilterSideBar = ({filtersData,onFilterChange, stockCounts, selectedPriceRange, priceRange, categories, isFiltersOpen, onPriceChange} : FilterSideBarProps) => {
+const FilterSideBar = ({filtersData,onFilterChange,handleCategoryChange, stockCounts, selectedPriceRange, priceRange, categories, isFiltersOpen, onPriceChange} : FilterSideBarProps) => {
 
-
+console.log(categories)
 
   return (
     <div className={`${isFiltersOpen ? "pr-5 h-full" : "pr-0 h-0"}`}>
@@ -33,6 +34,7 @@ const FilterSideBar = ({filtersData,onFilterChange, stockCounts, selectedPriceRa
                     title={title} 
                     categorySlug={slug} 
                     subCategories={subCategories}
+                    handleCategoryChange={handleCategoryChange}
                     />  
             </div>
         ))}

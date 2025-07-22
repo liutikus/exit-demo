@@ -21,12 +21,6 @@ const ProductGrid = ({products, productsData, currentPage, handlePageChange}: Pr
                             >
                             <ProductCard product={product} isDark={false}/>
                             </div>
-                        ))}{products?.map((product)=>(
-                            <div
-                            key={product.id}
-                            >
-                            <ProductCard product={product} isDark={false}/>
-                            </div>
                         ))}
                     </div>
                     <PaginationBtns 

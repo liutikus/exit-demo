@@ -1,3 +1,4 @@
+import { populateValues } from "../data/data";
 import type { PriceRange, SelectedFilters } from "../types/types";
 
 export const BaseURL = import.meta.env.VITE_API_URL;
@@ -10,7 +11,10 @@ export const fetchCategories = async () => {
 };
 
 export const fetchProducts = async (currentPage : number, pageSize : number ) => {
-  const res = await fetch(`${BaseURL}/api/products?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}&populate=*`);
+  const url = new URL(`${BaseURL}/api/products?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}`);
+    url.searchParams.append("populate[subCategories]", "true"); 
+
+  const res = await fetch(url.toString());
   const data = await res.json();
   return data.data;
  
@@ -21,7 +25,8 @@ export const fetchProductsData = async (
   pageSize: number,
   priceRange: PriceRange,
   filters?: SelectedFilters,
-  sort?: string
+  sort?: string,
+  categorySlug?: string  
 ) => {
   const url = new URL(`${BaseURL}/api/products`);
 
@@ -32,6 +37,7 @@ export const fetchProductsData = async (
   url.searchParams.append("populate[size]", "true");
   url.searchParams.append("populate[product_type]", "true");
   url.searchParams.append("populate[brand]", "true");
+  url.searchParams.append("populate[categories]", "true"); 
 
   if (sort) {
     url.searchParams.append("sort", sort);
@@ -45,7 +51,6 @@ export const fetchProductsData = async (
     url.searchParams.append("filters[start_price][$lte]", priceRange.maxPrice.toString());
   }
 
- 
   const relationFields = ["size", "colors", "brand", "product_type"];
 
   if (filters) {
@@ -60,7 +65,6 @@ export const fetchProductsData = async (
         });
       }
 
-      
       if (key === "is_in_stock") {
         values.forEach((val) => {
           if (val === "true" || val === "false") {
@@ -71,6 +75,13 @@ export const fetchProductsData = async (
     });
   }
 
+if (categorySlug) {
+  const slugs = categorySlug.split(",");
+  slugs.forEach((slug) => {
+    url.searchParams.append("filters[categories][slug][$in]", slug);
+  });
+}
+console.log(url.toString())
   const res = await fetch(url.toString());
 
   if (!res.ok) {
@@ -86,6 +97,7 @@ export const fetchProductsData = async (
     metaPagination: data.meta.pagination
   };
 };
+
 
 
 export const fetchMainHero = async () => {
@@ -192,4 +204,67 @@ export const fetchStockCounts = async () => {
 
   const results = await Promise.all(promises);
   return results;
+};
+
+export const fetchProductById = async (id: string) => {
+  const url = new URL(`${BaseURL}/api/products/${id}`);
+
+  populateValues.forEach((val)=>{
+    url.searchParams.append(`populate[${val}]`, "true");
+
+  })
+url.searchParams.append(`populate[product_details][populate][details_info]`, "*")
+
+  const res = await fetch(url.toString());
+  if (!res.ok) {
+    throw new Error(`Failed to fetch product with id ${id}: ${res.status}`);
+  }
+  const data = await res.json();
+  return data.data;
+};
+
+export const fetchProductVideo = async () => {
+  const url = new URL(`${BaseURL}/api/product-page-video?populate=*`);
+
+
+
+
+  const res = await fetch(url.toString());
+  if (!res.ok) {
+    throw new Error(`Failed to fetch product video: ${res.status}`);
+  }
+  const data = await res.json();
+  return data.data;
+};
+
+export const fetchNewProductsByType = async (productTypeSlug?: string) => {
+  const url = new URL(`${BaseURL}/api/products`);
+
+  url.searchParams.append("pagination[page]", "1");
+  url.searchParams.append("pagination[pageSize]", "3");
+
+  if(productTypeSlug){
+
+    url.searchParams.append("filters[product_type][slug][$eq]", productTypeSlug);
+  }
+  url.searchParams.append("filters[is_new][$eq]", "true");
+
+  populateValues.forEach((val)=>{
+    url.searchParams.append(`populate[${val}]`, "true");
+
+  })
+
+  console.log(url.toString());
+
+  const res = await fetch(url.toString());
+
+  if (!res.ok) {
+    const error = await res.text();
+    console.error("Error response:", error);
+    throw new Error(`HTTP ${res.status}: ${error}`);
+  }
+
+  const data = await res.json();
+
+  return data.data;
 };

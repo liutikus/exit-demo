@@ -7,6 +7,7 @@ export type Category = {
 }
 
 export type Product = {
+    documentId:string
     title: string,
     mainImage:{
         url:string
@@ -27,8 +28,27 @@ export type Product = {
     colors: [{
         hex_code: string,
         name:string
+        id:number
     }],
     start_price:number,
+    brand:{
+        name:string
+    }
+    memory_options:[{
+        price:number,
+        memory_value:string
+       
+    }]
+    product_details:[{
+        title:string,
+        details_info: [{
+        name:string,
+        value:string
+}]}]
+    product_type:{
+        name:string
+        slug:string
+    }
 }
 
 export type ProductsData = {
@@ -55,6 +75,7 @@ export type VideoData = {
         url: string
     },
     title:string
+    subTitleText: string | null
 }
 
 export type FiltredData = {

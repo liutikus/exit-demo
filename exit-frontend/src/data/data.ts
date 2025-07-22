@@ -183,3 +183,5 @@ export const stockOptions =[{
     value:"false"
 },]
 
+
+export const populateValues = ["size", "product_type", "categories", "mainImage", "images", "memory_options", "colors", "brand"];

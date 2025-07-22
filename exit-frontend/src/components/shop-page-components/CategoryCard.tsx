@@ -6,17 +6,31 @@ import WatchIcon from "../../assets/category-icons/watch-icon.svg?react"
 import { useEffect, useState } from "react"
 import type { Category, CategoryProductCount } from "../../types/types"
 import { fetchCategoryProductsCount } from "../../api/strapi"
+import { useSearchParams } from "react-router"
 
 type CategoryCardProps = {
   categorySlug: string
   title: string
   subCategories: Category[]
   categoryId: number
+    handleCategoryChange: (slug: string[]) => void
+
 }
 
-const CategoryCard = ({ categorySlug, categoryId, title, subCategories }: CategoryCardProps) => {
+const CategoryCard = ({ categorySlug, categoryId,handleCategoryChange, title, subCategories }: CategoryCardProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [productCount, setProductCount] = useState<CategoryProductCount | null>(null)
+  const [subCategoriesSlugs, setSubCategoriesSlugs] = useState([""])
+ 
+  const [searchParams] = useSearchParams()
+  const category = searchParams.get("category") || ""
+    
+
+useEffect(() => {
+  const slugs = subCategories.map(sub => sub.slug);
+  setSubCategoriesSlugs(slugs);
+}, [subCategories]);
+ 
 
   useEffect(() => {
     fetchCategoryProductsCount(categoryId)
@@ -25,12 +39,8 @@ const CategoryCard = ({ categorySlug, categoryId, title, subCategories }: Catego
   }, [categoryId])
 
   const getSubCategoriesCount = (subCategorySlug: string): number => {
-    const found = productCount?.breakdown.find(({ slug }) =>{
-       slug === subCategorySlug
-       console.log(typeof slug, slug)
-       console.log(typeof subCategorySlug, subCategorySlug)
-      })
-      console.log(productCount?.breakdown.find(({slug})=> slug === "i-phone"), subCategorySlug)
+    const found = productCount?.breakdown.find(({ slug }) =>slug === subCategorySlug
+      )
     return found?.productCount ?? 0
   }
 
@@ -51,16 +61,20 @@ const CategoryCard = ({ categorySlug, categoryId, title, subCategories }: Catego
     }
   }
 
+ console.log(subCategories)
+
   return (
     <div className="border-1 p-2 border-[rgba(var(--color-gray-rgb),0.26)] rounded-xl my-4">
       <div className="flex gap-4 justify-between items-center">
-        <div className="flex gap-3 items-center">
+        <button
+        onClick={()=>handleCategoryChange(subCategoriesSlugs)}
+        className="flex gap-3 items-center cursor-pointer">
           {getCategoryIcon(categorySlug)}
           <h3 className="font-bold w-max">{title}</h3>
           <p className="p-1 rounded-md text-xs px-2 border-1 border-[var(--color-black)] font-bold">
             {productCount?.total ?? 0}
           </p>
-        </div>
+        </button>
 
         {subCategories.length > 0 && (
           <button
@@ -79,9 +93,11 @@ const CategoryCard = ({ categorySlug, categoryId, title, subCategories }: Catego
         }`}
       >
         {subCategories.map(({ title, slug }, index) => (
-          <div key={index} className="py-2 opacity-70 flex gap-2 items-center">
-            <button className="text-sm cursor-pointer">{title}</button>
-            <p className="p-1 rounded-md text-xs px-2 border-1 border-[var(--color-black)] font-bold opacity-50">
+          <div key={index} className={`${category === slug ? "font-bold opacity-100" : "font-normal opacity-70"} py-2 flex gap-2 items-center`}>
+            <button 
+            onClick={()=>handleCategoryChange([slug])}
+            className="text-sm cursor-pointer">{title}</button>
+            <p className="p-1 rounded-md text-xs px-2 border-1 border-[var(--color-black)] font-bold ">
               {getSubCategoriesCount(slug)}
             </p>
           </div>

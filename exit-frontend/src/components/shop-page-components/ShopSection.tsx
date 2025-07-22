@@ -16,6 +16,7 @@ const ShopSection = () => {
   const sortParam = searchParams.get("sort") ||"title:asc"
   const priceMinParam = Number(searchParams.get("minPrice")) || 0;
   const priceMaxParam = Number(searchParams.get("maxPrice")) || 100000;
+  const categoryParam = searchParams.get("category") || "";
 
   
     const [currentSort, setCurrentSort] = useState(sortParam)
@@ -28,6 +29,9 @@ const ShopSection = () => {
     const [colors, setColors] = useState<FiltredData[] | null>(null)
     const [brands, setBrands] = useState<FiltredData[] | null>(null)
     const [productTypes, setProductTypes] = useState<FiltredData[] | null>(null)
+    const [currentCategory, setCurrentCategory] = useState<string[]>(
+  categoryParam ? categoryParam.split(",") : ["i-phone"]
+);
     const [stockCounts, setStockCounts] = useState<StockCount[] | null>(null)
     const [filtersData,setFiltersData] = useState<FilterGroup[] | null>(null)
     const [priceRange, setPriceRange] = useState<PriceRange | null>(null)
@@ -84,6 +88,7 @@ useEffect(() => {
   const newSort = searchParams.get("sort") || "title:asc";
   const newMinPrice = Number(searchParams.get("minPrice")) || priceRange?.minPrice || 0;
   const newMaxPrice = Number(searchParams.get("maxPrice")) || priceRange?.maxPrice || 10000;
+   const category = searchParams.get("category") || "";
   const syncFiltersFromURL = () => {
     const getParam = (key: string) => searchParams.getAll(key);
     setSelectedFilters({
@@ -99,6 +104,7 @@ useEffect(() => {
   setCurrentPage(newPage);
   setCurrentSort(newSort);
   setSelectedPriceRange([newMinPrice, newMaxPrice])
+    setCurrentCategory(category ? category.split(",") : []);
   syncFiltersFromURL()
 }, [searchParams]);
 
@@ -113,7 +119,7 @@ useEffect(() => {
             minPrice:selectedPriceRange[0],
             maxPrice: selectedPriceRange[1]
         },
-         selectedFilters,currentSort)
+         selectedFilters,currentSort, currentCategory.join(","))
       .then((data) => {
         setProductsData(data);
         setProducts(data.products);
@@ -154,6 +160,14 @@ const handlePageChange = (page: number) => {
   });
 };
 
+const handleCategoryChange = (slug: string[]) => {
+  setSearchParams((prev) => {
+    prev.set("category", slug.join(","));
+    prev.set("page", "1"); 
+    return prev;
+  });
+};
+
 const handleFilterParamChange = (key: string, value: string) => {
   setSearchParams((prev) => {
     const current = new Set(prev.getAll(key));
@@ -179,6 +193,7 @@ const handleFilterParamChange = (key: string, value: string) => {
                 selectedPriceRange={selectedPriceRange}
                 onFilterChange={handleFilterParamChange}
                 stockCounts={stockCounts}
+                handleCategoryChange={handleCategoryChange}
                 />
             </div>
 

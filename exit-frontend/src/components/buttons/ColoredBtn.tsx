@@ -1,14 +1,15 @@
 
 type ColoredBtnProps= {
     text:string
+    isTextBold: boolean
 }
 
-const ColoredBtn = ({text} : ColoredBtnProps) => {
+const ColoredBtn = ({text, isTextBold} : ColoredBtnProps) => {
   return (
     <div>
         <a
   href="#"
-  className="
+  className={`
     px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 
     py-2 
     text-sm sm:text-base md:text-lg xl:text-xl
@@ -23,7 +24,8 @@ const ColoredBtn = ({text} : ColoredBtnProps) => {
     max-w-full
     inline-block
     text-center
-  "
+  ${isTextBold ? "font-bold" : "font-normal"}
+  `}
 >
   {text}
 </a>
