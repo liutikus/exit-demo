@@ -3,6 +3,7 @@ import { faqs } from "../data/data"
 import FaqCard from "./card-components/FaqCard"
 import PaddingContainer from "./PaddingContainer"
 
+
 const FaqSection = () => {
 
     const [openCardId, setOpenCardId] = useState<number | null>(null)
@@ -12,7 +13,9 @@ const FaqSection = () => {
     }
 
   return (
-    <section className="py-15">
+    <section className={`py-15 
+
+    `}>
         <PaddingContainer>
             <h2 className="text-3xl font-bold pb-5">Răspunsuri pentru tine</h2>
             <div className="flex flex-col ">

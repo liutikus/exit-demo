@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
-import { fetchNewProductsByType, fetchProductById, fetchProductVideo } from "../../api/strapi";
+import { fetchNewProductsByType, fetchProductById, fetchProductsBySpecial, fetchProductVideo } from "../../api/strapi";
 import NotFound from "../../pages/NotFound";
 import Loading from "../../pages/Loading";
 import LinkArrow from "../../assets/icons/link-arrow.svg?react"
@@ -10,6 +10,7 @@ import ProductHeroCarousel from "./ProductHeroCarousel";
 import ProductPriceDetails from "./ProductPriceDetails";
 import Specifications from "./Specifications";
 import BestForYouProducts from "./BestForYouProducts";
+import ProductsCarousel from "../ProductsCarousel";
 
 const MainProductSection = () => {
   const { id } = useParams();
@@ -17,12 +18,27 @@ const MainProductSection = () => {
   const [video, setVideo] = useState<VideoData | null>(null)
   const [error, setError] = useState("");
   const [bestProducts, setBestProducts] = useState<Product[] | null>(null)
+  const [newProducts, setNewProducts] = useState<Product[] | null>(null)
+  const [onSaleProducts, setOnSaleProducts] = useState<Product[] | null>(null)
 
   useEffect(()=>{
     fetchNewProductsByType(product?.product_type.slug)
            .then((data) => setBestProducts(data))
             .catch((err) => console.log(err.message));
   },[product?.product_type?.slug])
+
+  useEffect(()=>{
+    fetchProductsBySpecial("is_new")
+      .then(setNewProducts)
+      .catch((err)=>console.log(err.message))
+  },[])
+    useEffect(()=>{
+    fetchProductsBySpecial("is_on_sale")
+      .then(setOnSaleProducts)
+      .catch((err)=>console.log(err.message))
+  },[])
+
+  console.log(onSaleProducts)
 
   useEffect(() => {
     if (!id) return;
@@ -78,6 +94,9 @@ console.log(bestProducts)
 
             <Specifications product={product}/>
             <BestForYouProducts products={bestProducts} />
+            <ProductsCarousel title="Recente" products={newProducts} isDark={false}/>
+            <ProductsCarousel title="Reduceri" products={onSaleProducts} isDark={false}/>
+
 
 
     </div>

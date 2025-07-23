@@ -7,12 +7,11 @@ type ColoredBtnProps= {
 const ColoredBtn = ({text, isTextBold} : ColoredBtnProps) => {
   return (
     <div>
-        <a
-  href="#"
+        <button
   className={`
     px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 
     py-2 
-    text-sm sm:text-base md:text-lg xl:text-xl
+    text-sm sm:text-base md:text-md xl:text-lg
     font-bold
     bg-[var(--color-accent)] 
     border border-[var(--color-accent)] 
@@ -25,10 +24,11 @@ const ColoredBtn = ({text, isTextBold} : ColoredBtnProps) => {
     inline-block
     text-center
   ${isTextBold ? "font-bold" : "font-normal"}
+
   `}
 >
   {text}
-</a>
+</button>
 
 
     </div>

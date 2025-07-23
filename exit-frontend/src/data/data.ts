@@ -185,3 +185,20 @@ export const stockOptions =[{
 
 
 export const populateValues = ["size", "product_type", "categories", "mainImage", "images", "memory_options", "colors", "brand"];
+
+export const tradeSteps = [{
+    stepNumber: 1,
+    title:"Care este device-ul dvs. curent?",
+    bgColor: "bg-[linear-gradient(to_top,_#121212,_rgba(255,0,0,0.05))]",
+    description:"Vă rugăm să selectați configurările pentru dispozitivul pe care doriți să-l predați."
+},{
+    stepNumber: 2,
+    title:"Alegeți device-ul dorit",
+    bgColor: "bg-[linear-gradient(to_top,_#121212,_rgba(0,255,0,0.05))]",
+    description:"Vă rugăm să selectați configurările pentru dispozitivul dorit de dvs."
+},{
+    stepNumber: 3,
+    title:"Estimare preliminară",
+    bgColor: "bg-[linear-gradient(to_top,_#121212,_rgba(0,0,255,0.05))]",
+    description:"Aici o să fie afișată o estimare preliminară a prețului. Dacă doriți să contactați echipa noastră vă rugăm să apelați pe butonul de mai jos."
+}]

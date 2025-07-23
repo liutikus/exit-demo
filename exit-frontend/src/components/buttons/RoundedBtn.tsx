@@ -7,7 +7,7 @@ type RoundedBtnProps ={
 const RoundedBtn = ({text, isTextBlack}: RoundedBtnProps) => {
   return (
     <div>
-      <button className={` px-6 sm:px-8 md:px-12 
+      <button className={` px-auto w-full
     py-2 
     text-sm sm:text-base md:text-lg 
     border border-[var(--color-accent)] 

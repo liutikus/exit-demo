@@ -112,6 +112,12 @@ export const fetchMainVideo = async () => {
   return data.data;
 };
 
+export const fetchTradeInVideo = async () => {
+  const res = await fetch(`${BaseURL}/api/trade-in-page-video?populate=*`);
+  const data = await res.json();
+  return data.data;
+};
+
 export async function fetchBestSellingProducts() {
   const url = new URL(`${BaseURL}/api/best-selling`);
 
@@ -249,12 +255,17 @@ export const fetchNewProductsByType = async (productTypeSlug?: string) => {
   }
   url.searchParams.append("filters[is_new][$eq]", "true");
 
+url.searchParams.append(`populate[product_features][populate][description]`, "*")
+url.searchParams.append(`populate[product_features][populate][icon]`, "true")
+
+
+
   populateValues.forEach((val)=>{
     url.searchParams.append(`populate[${val}]`, "true");
 
   })
 
-  console.log(url.toString());
+
 
   const res = await fetch(url.toString());
 
@@ -265,6 +276,26 @@ export const fetchNewProductsByType = async (productTypeSlug?: string) => {
   }
 
   const data = await res.json();
-
   return data.data;
 };
+
+export const fetchProductsBySpecial = async (specialOffer:string) =>{
+  const url = new URL(`${BaseURL}/api/products`);
+     url.searchParams.append("pagination[page]", "1");
+  url.searchParams.append("pagination[pageSize]", "10");
+   url.searchParams.append(`filters[${specialOffer}][$eq]`, "true");
+
+   populateValues.forEach((val)=>{
+    url.searchParams.append(`populate[${val}]`, "true");
+
+  })
+
+  const res = await fetch(url.toString())
+  if (!res.ok) {
+  const error = await res.text();
+  console.error("Error response:", error);
+  throw new Error(`HTTP ${res.status}: ${error}`);
+}
+  const data = await res.json()
+  return data.data;
+}

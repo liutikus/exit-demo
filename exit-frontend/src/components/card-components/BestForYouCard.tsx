@@ -11,7 +11,7 @@ type BestForYouCardProps = {
 const BestForYouCard = ({product}: BestForYouCardProps) => {
   return (
     <div>
-        <div className="pt-15 flex flex-col justify-center text-center gap-y-4 flex-grow w-[320px]"> 
+        <div className="pt-15 border-b-1 border-[rgba(var(--color-gray-rgb),0.26)] pb-15 flex flex-col justify-center text-center gap-y-4 flex-grow w-[320px]"> 
         <Link to={`/product/${product.documentId}`}>
             <div className="h-full w-full">
             <img
@@ -50,6 +50,26 @@ const BestForYouCard = ({product}: BestForYouCardProps) => {
         ><p>Vezi Preturile </p>
         <ArrowLink className="h-3 w-auto"/>
         </Link>
+        </div>
+        <div className="pt-15 flex flex-col jsutify-center gap-y-10">
+            {product.product_features.map(({icon, description},index)=>(
+                <div
+                key={index}
+                className="flex flex-col justify-center items-center "
+                >
+                    <div className="w-15 h-auto ">
+                    <img 
+                    
+                    src={BaseURL + icon.url} alt="Icon" />
+
+                    </div>
+                    <div className="flex flex-col gap-y-2 items-center">
+                        {description.map(({description},index)=>(
+                            <p key={index}>{description}</p>
+                        ))}
+                    </div>
+                </div>
+            ))}
         </div>
 
     </div>

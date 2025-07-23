@@ -16,10 +16,10 @@ const MainHero = () => {
 
   return (
    <Hero img={BaseURL + heroData?.image.url}>
-        <a href="#" className="hidden sm:inline px-5 lg:px-10 font-semibold border-1 py-3 rounded-full border-[var(--color-accent)]  hover:text-white hover:bg-[var(--color-accent)] transition-all ease-in-out duration-200 cursor-pointer text-[var(--color-accent)]">Descoperă viitorul!</a>
+        <button className="hidden sm:inline px-5 lg:px-10 font-semibold border-1 py-3 rounded-full border-[var(--color-accent)]  hover:text-white hover:bg-[var(--color-accent)] transition-all ease-in-out duration-200 cursor-pointer text-[var(--color-accent)]">Descoperă viitorul!</button>
         <h1 className="md:text-2xl xl:text-5xl pt-2 pb-2 sm:pt-4 sm:pb-3 lg:pt-5 lg:pb-8 font-bold">{heroData?.title}</h1>
         <h2 className="text-sm md:text-lg pb-4 sm:pb-10 text-[var(--color-gray)]">{heroData?.sub_title}</h2>
-        <ColoredBtn text="Fii Primul"/>
+        <ColoredBtn text="Fii Primul" isTextBold={true}/>
    </Hero>
   )
 }

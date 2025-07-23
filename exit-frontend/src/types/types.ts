@@ -49,6 +49,14 @@ export type Product = {
         name:string
         slug:string
     }
+    product_features:[{
+        icon:{
+            url:string
+        }
+        description:[{
+            description:string
+        }]
+    }]
 }
 
 export type ProductsData = {
@@ -74,7 +82,7 @@ export type VideoData = {
     video: {
         url: string
     },
-    title:string
+    title:string | null
     subTitleText: string | null
 }
 
