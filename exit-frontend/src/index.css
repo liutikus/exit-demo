@@ -4,6 +4,7 @@
 
 :root{
   --color-accent: #4BE39C;
+  --color-accent-rgb:75, 227, 156;
   --color-accent-rgb: 75,227,156;
   --color-black: #121212;
   --color-light-black: rgba(18, 18, 18, 0.05);
@@ -15,6 +16,8 @@
   --color-red:#D3000D;
   --color-gold:#FFB000;
   --color-purple:#4F1E97;
+  --color-bg-white:#F5F5F7;
+  --color-red:#D3000D;
   
 }
 

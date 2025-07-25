@@ -202,3 +202,8 @@ export const tradeSteps = [{
     bgColor: "bg-[linear-gradient(to_top,_#121212,_rgba(0,0,255,0.05))]",
     description:"Aici o să fie afișată o estimare preliminară a prețului. Dacă doriți să contactați echipa noastră vă rugăm să apelați pe butonul de mai jos."
 }]
+
+export const freeDeliveryValue = 100000;
+
+export const cartPath = "/cart";
+export const shopPath = "/shop"

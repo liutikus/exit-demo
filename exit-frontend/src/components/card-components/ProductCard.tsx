@@ -4,6 +4,7 @@ import { formatPrice } from "../../data/formatNumbers"
 import type { Product } from "../../types/types"
 import RoundedBtn from "../buttons/RoundedBtn"
 import SpecialOfferIcons from "./SpecialOfferIcons"
+import { useCart } from "../../hooks/useCart"
 
 type ProductCardProps = {
     product: Product,
@@ -12,6 +13,7 @@ type ProductCardProps = {
 
 const ProductCard = ({ product, isDark }: ProductCardProps) => {
 
+  const {addToCart} = useCart()
 
 
     return (
@@ -63,7 +65,11 @@ const ProductCard = ({ product, isDark }: ProductCardProps) => {
     </Link>
     <h4 className="text-sm mt-1">Începând cu {formatPrice(product.start_price)} MDL</h4>
     <div className="mt-3">
-      <RoundedBtn text="Adaugă în coș" isTextBlack={!isDark} />
+      <RoundedBtn text="Adaugă în coș" handleClick={()=>addToCart({
+        id:product.id,
+        product,
+        quantity:1
+      })} isTextBlack={!isDark} />
     </div>
   </div>
 </div>

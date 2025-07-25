@@ -2,6 +2,8 @@ import type { Product } from "../../types/types"
 import SquareBtn from "../buttons/SquareBtn"
 import CheckIcon from "../../assets/icons/check-icon.svg?react"
 import { useState } from "react"
+import { useCart } from "../../hooks/useCart"
+import { useNavigate } from "react-router"
 
 type FinalPriceProps = {
     product: Product
@@ -10,6 +12,8 @@ type FinalPriceProps = {
 const FinalPrice = ({product} : FinalPriceProps) => {
 
     const [isNowPay, setIsNowPay] = useState(true)
+    const {addToCart, } = useCart();
+    const navigate = useNavigate()
 
   return (
     <div className="pt-10">
@@ -36,8 +40,12 @@ const FinalPrice = ({product} : FinalPriceProps) => {
                 <p className="opacity-80 text-sm">Usually ready in 24 hours <span className="underline cursor-pointer">View store information</span></p>
         </div>
         <div className="flex flex-col space-y-2 pt-4">
-      <SquareBtn text={"Adaugă în coș"} isDark={true}/>
-      <SquareBtn text={"Cumpără acum"} isDark={false}/>
+      <SquareBtn handleClick={()=>addToCart({
+        id:product.id,
+        product,
+        quantity:1
+      })} text={"Adaugă în coș"} isDark={true}/>
+      <SquareBtn handleClick={()=>navigate("/checkout")} text={"Cumpără acum"} isDark={false}/>
 
         </div>
     </div>

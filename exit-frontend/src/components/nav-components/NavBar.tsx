@@ -7,6 +7,9 @@ import CartIcon from "../../assets/icons/cart-icon.svg?react"
 import ArrowIcon from "../../assets/icons/arrow-icon.svg?react"
 import SubNav from "./SubNav"
 import { Link } from "react-router"
+import { useCart } from "../../hooks/useCart"
+import { cartPath } from "../../data/data"
+import PaddingTop from "../PaddingTop"
 
 type NavProps = {
   isDark: boolean
@@ -14,10 +17,12 @@ type NavProps = {
 
 const NavBar = ({isDark}: NavProps) => {
 
-
+const {totalItems, total} = useCart()
 
   return (
-    <nav className={isDark ? "dark" : ""}>
+    <>
+    <PaddingTop/>
+    <nav className={`fixed w-full top-0 z-50 ${isDark ? "dark" : ""}`}>
       <div className= "bg-white dark:bg-[var(--color-black)]">
       <div className="border-b-1 border-[rgba(var(--color-gray-rgb),0.17)] pb-4">
       <PaddingContainer>
@@ -66,18 +71,22 @@ const NavBar = ({isDark}: NavProps) => {
 </p>
 
               </div>
+                <Link
+                to={cartPath}
+                >
               <div className="flex px-4 items-baseline-last">
                 <div className="relative">
                 <CartIcon className="h-[26px] w-auto"/>
  <p className="absolute -top-2 -right-2 w-5 h-5 text-sm flex items-center justify-center rounded-full text-white bg-[var(--color-accent)]">
-  0
+  {totalItems}
 </p>
                 </div>
                 <div className="pl-4">
                   <h3 className="text-sm">Subtotal</h3>
-                  <h2 className="font-bold">0.00 MDL</h2>
+                  <h2 className="font-bold">{total.toLocaleString()} MDL</h2>
                   </div>
               </div>
+                </Link>
             </div>
             
         </div>
@@ -88,7 +97,7 @@ const NavBar = ({isDark}: NavProps) => {
       {/* <SubNav/> */}
 
       </div>
-    </nav>
+    </nav></>
   )
 }
 

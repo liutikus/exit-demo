@@ -2,12 +2,15 @@
 type RoundedBtnProps ={
     text:string,
     isTextBlack:boolean,
+    handleClick: ()=>void
 }
 
-const RoundedBtn = ({text, isTextBlack}: RoundedBtnProps) => {
+const RoundedBtn = ({text,handleClick, isTextBlack}: RoundedBtnProps) => {
   return (
     <div>
-      <button className={` px-auto w-full
+      <button 
+      onClick={handleClick}
+      className={`px-1 md:px-5 w-full
     py-2 
     text-sm sm:text-base md:text-lg 
     border border-[var(--color-accent)] 
@@ -15,7 +18,6 @@ const RoundedBtn = ({text, isTextBlack}: RoundedBtnProps) => {
     cursor-pointer
     transition-all ease-in-out duration-200
     hover:bg-[var(--color-accent)]
-    max-w-full
     inline-block
     text-center
       ${isTextBlack ? "text-[var(--color-black)]" : "text-white"}}

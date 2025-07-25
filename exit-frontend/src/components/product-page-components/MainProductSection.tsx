@@ -38,7 +38,6 @@ const MainProductSection = () => {
       .catch((err)=>console.log(err.message))
   },[])
 
-  console.log(onSaleProducts)
 
   useEffect(() => {
     if (!id) return;
@@ -59,7 +58,6 @@ const MainProductSection = () => {
   if (!product) return <Loading/>;
   if (!video) return <Loading/>;
 
-console.log(bestProducts)
   return (
     <div className="py-15 bg-[#F5F5F7] text-[var(--color-black)]">
         <PaddingContainer>
@@ -92,10 +90,20 @@ console.log(bestProducts)
             </div>
         </PaddingContainer>
 
+          {product.product_details[0] && (
             <Specifications product={product}/>
+
+          )}
+          {bestProducts && (
             <BestForYouProducts products={bestProducts} />
+          ) }
+          {newProducts && (
             <ProductsCarousel title="Recente" products={newProducts} isDark={false}/>
+          )}
+          {onSaleProducts && (
             <ProductsCarousel title="Reduceri" products={onSaleProducts} isDark={false}/>
+
+          )}
 
 
 

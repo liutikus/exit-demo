@@ -13,7 +13,6 @@ type ProductPriceDetailsProps ={
 
 const ProductPriceDetails = ({product, video}: ProductPriceDetailsProps) => {
 
-
   return (
     <div className="w-full text-[var(--color-black)]">
             <h4 className="text-sm pb-2">{product.brand.name}</h4>
@@ -28,9 +27,17 @@ const ProductPriceDetails = ({product, video}: ProductPriceDetailsProps) => {
             </button>
 
       </div>
-      <MemoryOptions memoryOptions={product.memory_options}/>
+      {product.memory_options[0] && (
+        <MemoryOptions memoryOptions={product.memory_options}/>
+      )}
+      {product.colors[0] && (
         <ColorOptions colors={product.colors}/>
-        <VideoProduct video={video}/>
+      )}
+      {
+        video && (
+          <VideoProduct video={video}/>
+        )
+      }
         <FinalPrice product={product}/>
     </div>
   )
