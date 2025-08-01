@@ -16,7 +16,6 @@ type FilterSideBarProps ={
 
 const FilterSideBar = ({filtersData,onFilterChange,handleCategoryChange, stockCounts, selectedPriceRange, priceRange, categories, isFiltersOpen, onPriceChange} : FilterSideBarProps) => {
 
-console.log(categories)
 
   return (
     <div className={`${isFiltersOpen ? "pr-5 h-full" : "pr-0 h-0"}`}>

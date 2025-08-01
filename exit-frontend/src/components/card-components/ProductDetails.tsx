@@ -25,7 +25,7 @@ const ProductDetails = ({title, detailsInfo} : ProductDetailsProps) => {
           </button>
         </div>
         <div
-        className={`overflow-hidden grid grid-cols-4 gap-y-12  transition-all duration-500 ease-in-out transform ${
+        className={`overflow-hidden grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-y-12  transition-all duration-500 ease-in-out transform ${
           isOpen ? "opacity-100 translate-y-0 py-4" : "max-h-0 opacity-0 -translate-y-2 py-0"
         }`}
       >

@@ -1,78 +1,135 @@
-import PaddingContainer from "../PaddingContainer"
-import ArrowIcon from "../../assets/icons/arrow-icon.svg?react"
-import { useEffect, useState } from "react"
-import NavCardsContainer from "./NavCardsContainer"
-import { fetchCategories } from "../../api/strapi"
-import type { Category } from "../../types/types"
-import { Link } from "react-router"
-
-
+import PaddingContainer from "../PaddingContainer";
+import ArrowIcon from "../../assets/icons/arrow-icon.svg?react";
+import { useEffect, useState } from "react";
+import NavCardsContainer from "./NavCardsContainer";
+import { fetchCategories, fetchProductsData } from "../../api/strapi";
+import type { Category, Product } from "../../types/types";
+import { Link } from "react-router-dom";
+import { allowedSubNavCategories } from "../../data/data";
+import { useDebounce } from "../../data/useDebounce";
 
 const SubNav = () => {
+  const [hoveredCategory, setHoveredCategory] = useState("");
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const [hoveredCategory, setHoveredCategory] = useState("");
-    const [isHovered, setIsHovered] = useState(false);
-    const [categories, setCategories] = useState<Category[] | null>(null)
+  const [categories, setCategories] = useState<Category[] | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
 
-    const handleMouseEnter = (category: string)=>{
-        setHoveredCategory(category)
-        setIsHovered(true)
+  const debouncedSlug = useDebounce(hoveredSlug, 400);
+
+  useEffect(() => {
+    fetchCategories()
+      .then(setCategories)
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    if (!debouncedSlug) {
+      setProducts([]);
+      setLoading(false);
+      return;
     }
 
-    const handelMouseLeave = ()=>{
-        setIsHovered(false)
+    setLoading(true);
+    let canceled = false;
 
-    } 
+    fetchProductsData(1, 8, { minPrice: 0, maxPrice: 999999 }, undefined, "title:asc", debouncedSlug)
+      .then(({ products }) => {
+        if (!canceled) setProducts(products);
+      })
+      .catch((err) => {
+        if (!canceled) console.error(err);
+      })
+      .finally(() => {
+        if (!canceled) setLoading(false);
+      });
 
-    useEffect(()=>{
-        fetchCategories()
-            .then(setCategories)
-            .catch(console.error)
-        },[])
+    return () => {
+      canceled = true;
+    };
+  }, [debouncedSlug]);
+
+  const handleMouseEnterCategory = (slug: string, title: string) => {
+    setHoveredCategory(title);
+    setHoveredSlug(slug);
+    setIsDropdownOpen(true);
+  };
 
 
   return (
-    <div className="hidden md:block py-6 dark:text-white text-[var(--color-black)] border-b-1 border-[rgba(var(--color-gray-rgb),0.17)]">
-        
+    <div className="hidden md:block relative py-6 dark:text-white text-[var(--color-black)] border-b border-[rgba(var(--color-gray-rgb),0.17)]">
       <PaddingContainer>
         <div className="flex items-center justify-between">
-            <div className="flex items-center justify-between gap-8">
-            {categories?.map(({title,slug, id})=>(
-                <Link
-                key={id}
-                to ={`/shop`}>
-                <div 
-                onMouseEnter={()=>handleMouseEnter(title)}
-                onMouseLeave={()=>handelMouseLeave()}
-                className="flex items-baseline-last gap-2 cursor-pointer"
-                >
+          <div className="flex items-center gap-8">
+            {categories
+              ?.filter(({ slug }) => allowedSubNavCategories.includes(slug))
+              .sort(
+                (a, b) =>
+                  allowedSubNavCategories.indexOf(a.slug) -
+                  allowedSubNavCategories.indexOf(b.slug)
+              )
+              .map(({ title, slug, id }) => (
+                <Link key={id} to={`/shop?category=${slug}`}>
+                  <div
+                    onMouseEnter={() => handleMouseEnterCategory(slug, title)}
+                    className="flex items-baseline gap-2 cursor-pointer"
+                  >
                     <h3 className="font-bold">{title}</h3>
                     <div className="text-[var(--color-gray)]">
-                    <ArrowIcon className={`transition-all transform ease-in-out duration-300 ${
-                            hoveredCategory === title ? "rotate-180" : "rotate-0"
-                        }`}/>
-
+                      <ArrowIcon
+                        className={`transition-transform duration-300 ${
+                          hoveredCategory === title ? "rotate-180" : "rotate-0"
+                        }`}
+                      />
                     </div>
-                </div>
-
+                  </div>
                 </Link>
-            ))}
+              ))}
+          </div>
 
-            </div>
-            <div className="hidden xl:flex items-center gap-2">
-                     <a href="#" className="border-1 dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]">Trade-In</a>
-                     <a href="#" className="border-1 dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]">E-Bronique</a>
-                     <a href="#" className="border-1 dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]">Service Centru</a>
-                     <a href="#" className="border-1 dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]">Despre Noi</a>
-
-
-            </div>
-
+          <div className="hidden xl:flex items-center gap-2">
+            <Link
+            to={"/trade-in"}
+            >
+        <button
+                className="border dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]"
+              >
+                Trade-In
+              </button>
+            </Link>
+            <Link
+            to={"/e-bronique"}
+            >
+              <button
+                className="border dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]"
+              >
+                E-Bronique
+              </button>
+            </Link>
+              <button
+                className="border dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]"
+              >
+                Service Centru
+              </button>
+              <button
+                className="border dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]"
+              >
+                Despre Noi
+              </button>
+          </div>
         </div>
-        <NavCardsContainer category={hoveredCategory} isHovered = {isHovered}/>
-      </PaddingContainer>
-    </div>
-  )
-}
 
-export default SubNav
+      </PaddingContainer>
+        <NavCardsContainer
+          products={products}
+          isHovered={isDropdownOpen}
+          setIsHovered={setIsDropdownOpen}
+          loading={loading}
+        />
+    </div>
+  );
+};
+
+export default SubNav;

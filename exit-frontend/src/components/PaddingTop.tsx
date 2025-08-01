@@ -1,7 +1,7 @@
 
 const PaddingTop = () => {
   return (
-    <div className='pt-20'>
+    <div className='pt-20 md:pt-50'>
       
     </div>
   )

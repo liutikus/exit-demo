@@ -44,11 +44,11 @@ const Footer = () => {
                 <input 
                 type="text"
                 placeholder="Email"
-                className="pl-4"
+                className="pl-4 flex-grow flex-shrink min-w-0"
                 />
                 <button 
                 onClick={handleClick}
-                className={`${isClicked ? "shadow-none" : "shadow-md"} text-white bg-[var(--color-accent)] px-12 py-3 font-bold rounded-md cursor-pointer `}>Abonează-te</button>
+                className={`${isClicked ? "shadow-none" : "shadow-md"} text-white bg-[var(--color-accent)] text-sm sm:text-md px-2 sm:px-12 py-1 sm:py-3 font-bold rounded-md cursor-pointer `}>Abonează-te</button>
             </div>
         </div>
     </div>
@@ -96,12 +96,12 @@ const Footer = () => {
     </div>
     <div className="text-white pt-5 md:pt-20">
         <div className="md:flex items-center justify-between">
-            <div className="flex items-center">
+            <div className="sm:flex items-center">
                 {underFooterLinks.map(({ text, link }, index) => (
                     <div
                         key={index}
                         className={`opacity-80 pr-4 hover:opacity-100 ${
-                        index === 0 ? "" : "border-l pl-4 border-[rgba(var(--color-gray-rgb),0.5)]"
+                        index === 0 ? "" : "sm:border-l sm:pl-4 border-[rgba(var(--color-gray-rgb),0.5)]"
                         }`}
                     >
                         <a href={link}>{text}</a>
@@ -122,7 +122,7 @@ const Footer = () => {
 
         </div>
     </div>
-    <div className="flex pt-15 justify-between">
+    <div className="sm:flex pt-15 justify-between">
                 <div className="flex gap-3">
                 <a href="#"><AmericanExpressIcon className="w-auto h-[25px]"/></a>
                 <a href="#"><VisaIcon className="w-auto h-[25px]"/></a>

@@ -17,10 +17,10 @@ const FinalPrice = ({product} : FinalPriceProps) => {
 
   return (
     <div className="pt-10">
-        <div className="flex items-center gap-4 py-4">
+        <div className="sm:flex items-center gap-4 py-4">
             <div 
             onClick={()=>setIsNowPay(!isNowPay)}
-            className={`${!isNowPay ? "border-[rgba(var(--color-gray-rgb),0.13)]" : "border-[var(--color-accent)]"} bg-white p-7 w-full border-1 rounded-lg cursor-pointer `}>
+            className={`${!isNowPay ? "border-[rgba(var(--color-gray-rgb),0.13)]" : "border-[var(--color-accent)]"} bg-white sm-4 md:mb-0 p-7 w-full border-1 rounded-lg cursor-pointer `}>
                     <h2 className="font-bold text-lg pb-2 ">Prețul final:</h2>
                     <p className="flex gap-2 text-lg">{product.start_price.toLocaleString()}  Lei
                         <s className="opacity-40">{product.start_price.toLocaleString()} Lei 

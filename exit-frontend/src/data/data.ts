@@ -207,3 +207,46 @@ export const freeDeliveryValue = 100000;
 
 export const cartPath = "/cart";
 export const shopPath = "/shop"
+export const productPath = "/product"
+
+export const allowedSubNavCategories = ['i-phone', "watch", "air-pods", "mac-book", "accesories", "entertainment"]
+
+export const screenProtectorAdvantages=[{
+    title:"Rezistență la zgârieturi",
+    description:"Suprafața peliculei este proiectată să prevină zgârieturile minore și uzura zilnică, menținând dispozitivul tău într-o stare impecabilă.",
+    id:1
+},{
+    id:2,
+    title:"Protecție împotriva impacturilor",
+    description:"Pelicula acționează ca un amortizor, dispersând impactul în cazul unor lovituri sau căderi accidentale."
+},{
+    id:3,
+    title:"Aspect Premium",
+    description:"Finisajul bronat adaugă un look modern și elegant, îmbunătățind estetica generală a dispozitivului."
+},{
+    id:4,
+    title:"Tehnologie Auto-regenerare",
+    description:"Micile zgârieturi de suprafață dispar între timp, datorită compoziției unice a materialului."
+},{
+    id:5,
+    title:"Protecție Hydrofoba",
+    description:"Respinge apa și alte lichide, prevenind petele și acumularea murdăriei."
+},{
+    id:6,
+    title:"Ușurință în întreținere",
+    description:"Pelicula este ușor de curățat și necesită întreținere minimă, asigurând un aspect proaspăt pe termen lung."
+},]
+
+export const whyEBronique= [{
+    title: "Protecție avansată",
+    description:"Peliculele noastre sunt create folosind materiale de înaltă calitate, proiectate să reziste la zgârieturi, urme de uzură și impacturi accidentale."
+},{
+    title: "Adaptabilitate pentru orice dispozitiv",
+    description:"Fie că ai un telefon, o tabletă sau un laptop, avem soluția perfectă pentru tine. Gama noastră vastă de produse este proiectată să se potrivească oricărui tip de dispozitiv."
+},{
+    title: "Ușurință în aplicare",
+    description:"Datorită tehnologiei de auto-nivelare, aplicarea peliculei este rapidă și eficientă, chiar și pentru începători."
+},{
+    title: "Estetică impecabilă",
+    description:"Dă un aspect premium dispozitivelor tale, cu un finisaj bronat care adaugă un plus de stil și personalitate."
+},]

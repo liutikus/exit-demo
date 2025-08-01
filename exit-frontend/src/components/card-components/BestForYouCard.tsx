@@ -11,7 +11,7 @@ type BestForYouCardProps = {
 const BestForYouCard = ({product}: BestForYouCardProps) => {
   return (
     <div>
-        <div className="pt-15 border-b-1 border-[rgba(var(--color-gray-rgb),0.26)] pb-15 flex flex-col justify-center text-center gap-y-4 flex-grow w-[320px]"> 
+        <div className="pt-15 border-b-1 border-[rgba(var(--color-gray-rgb),0.26)] pb-15 flex flex-col justify-center text-center gap-y-4 flex-grow w-[200px] lg:w-[320px]"> 
         <Link to={`/product/${product.documentId}`}>
             <div className="h-full w-full">
             <img

@@ -34,7 +34,7 @@ const ProductHeroCarousel = ({ images }: ProductHeroCarouselProps) => {
 
   return (
     <>
-      <div className="relative w-full h-[600px] bg-white border-1 rounded-xl shadow-sm border-[rgba(var(--color-gray-rgb),0.26)] overflow-hidden">
+      <div className="relative w-full h-[300px] md:h-[600px] bg-white border-1 rounded-xl shadow-sm border-[rgba(var(--color-gray-rgb),0.26)] overflow-hidden">
         <img
           src={BaseURL + images[current].url}
           alt={`Slide ${current + 1}`}

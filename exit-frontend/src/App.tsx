@@ -6,6 +6,7 @@ import ProductPage from "./pages/ProductPage"
 import TradeInPage from "./pages/TradeInPage"
 import AboutUsPage from "./pages/AboutUsPage"
 import CartPage from "./pages/CartPage"
+import EBroniquePage from "./pages/EBroniquePage"
 
 const App = () => {
   return (
@@ -16,13 +17,14 @@ const App = () => {
     <Route path="/trade-in" element={<TradeInPage/>}/>
     <Route path="/about-us" element={<AboutUsPage/>}/>
     <Route path="/cart" element={<CartPage/>}/>
+    <Route path="/e-bronique" element={<EBroniquePage/>}/>
 
 
 
 
 
 
-     {/* 404 fallback route */}
+
     <Route path="*" element={<NotFound/>}/>
   </Routes>
   )

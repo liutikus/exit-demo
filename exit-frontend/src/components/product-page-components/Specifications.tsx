@@ -27,7 +27,7 @@ const Specifications = ({product} : SpecificationsProps) => {
         <PaddingContainer>
 
       <h2 className="font-bold text-4xl">Specificații</h2>
-      <div className="bg-[#f5f5f5] rounded-lg p-5 my-4 grid grid-cols-4 gap-y-12">
+      <div className="bg-[#f5f5f5] rounded-lg p-5 my-4 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-y-12">
         {productDetails.map(({name, value},index)=>(
             <div
             key={index}

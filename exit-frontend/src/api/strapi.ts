@@ -6,7 +6,6 @@ export const BaseURL = import.meta.env.VITE_API_URL;
 export const fetchCategories = async () => {
   const res = await fetch(`${BaseURL}/api/categories?populate=*`);
   const data = await res.json();
-  console.log(data.data)
   return data.data;
 };
 
@@ -26,7 +25,8 @@ export const fetchProductsData = async (
   priceRange: PriceRange,
   filters?: SelectedFilters,
   sort?: string,
-  categorySlug?: string  
+  categorySlug?: string,
+  search?: string   
 ) => {
   const url = new URL(`${BaseURL}/api/products`);
 
@@ -37,7 +37,7 @@ export const fetchProductsData = async (
   url.searchParams.append("populate[size]", "true");
   url.searchParams.append("populate[product_type]", "true");
   url.searchParams.append("populate[brand]", "true");
-  url.searchParams.append("populate[categories]", "true"); 
+  url.searchParams.append("populate[categories]", "true");
 
   if (sort) {
     url.searchParams.append("sort", sort);
@@ -49,6 +49,11 @@ export const fetchProductsData = async (
 
   if (priceRange?.maxPrice) {
     url.searchParams.append("filters[start_price][$lte]", priceRange.maxPrice.toString());
+  }
+
+  
+  if (search) {
+    url.searchParams.append("filters[title][$containsi]", search);
   }
 
   const relationFields = ["size", "colors", "brand", "product_type"];
@@ -75,13 +80,13 @@ export const fetchProductsData = async (
     });
   }
 
-if (categorySlug) {
-  const slugs = categorySlug.split(",");
-  slugs.forEach((slug) => {
-    url.searchParams.append("filters[categories][slug][$in]", slug);
-  });
-}
-console.log(url.toString())
+  if (categorySlug) {
+    const slugs = categorySlug.split(",");
+    slugs.forEach((slug) => {
+      url.searchParams.append("filters[categories][slug][$in]", slug);
+    });
+  }
+
   const res = await fetch(url.toString());
 
   if (!res.ok) {
@@ -97,6 +102,7 @@ console.log(url.toString())
     metaPagination: data.meta.pagination
   };
 };
+
 
 
 
@@ -297,5 +303,23 @@ export const fetchProductsBySpecial = async (specialOffer:string) =>{
   throw new Error(`HTTP ${res.status}: ${error}`);
 }
   const data = await res.json()
+  return data.data;
+}
+
+export const fetchSearchResults = async(searchValue:string)=>{
+  const url = new URL(`${BaseURL}/api/products/?filters[title][$containsi]=${searchValue}&pagination[limit]=5`)
+    url.searchParams.append(`populate[mainImage]`, "true");
+    url.searchParams.append(`populate[product_type]`, "true");
+
+
+
+    const res = await fetch(url.toString())
+  if (!res.ok) {
+  const error = await res.text();
+  console.error("Error response:", error);
+  throw new Error(`HTTP ${res.status}: ${error}`);
+}
+  const data = await res.json()
+
   return data.data;
 }

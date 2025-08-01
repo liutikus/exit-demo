@@ -16,7 +16,7 @@ const ProductPriceDetails = ({product, video}: ProductPriceDetailsProps) => {
   return (
     <div className="w-full text-[var(--color-black)]">
             <h4 className="text-sm pb-2">{product.brand.name}</h4>
-      <div className="flex items-baseline-last justify-between border-[rgba(var(--color-gray-rgb),0.13)] border-b-[2px] pb-3">
+      <div className="md:flex items-baseline-last justify-between border-[rgba(var(--color-gray-rgb),0.13)] border-b-[2px] pb-3">
             <div className="flex items-center gap-2 pr-4">
             <h2 className="text-xl font-bold">{product.title}</h2>
                 <SpecialOfferIcons product={product} isForCard={false}/>

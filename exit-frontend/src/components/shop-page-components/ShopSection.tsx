@@ -17,6 +17,7 @@ const ShopSection = () => {
   const priceMinParam = Number(searchParams.get("minPrice")) || 0;
   const priceMaxParam = Number(searchParams.get("maxPrice")) || 100000;
   const categoryParam = searchParams.get("category") || "";
+  const search = searchParams.get("search") || "";
 
   
     const [currentSort, setCurrentSort] = useState(sortParam)
@@ -119,7 +120,7 @@ useEffect(() => {
             minPrice:selectedPriceRange[0],
             maxPrice: selectedPriceRange[1]
         },
-         selectedFilters,currentSort, currentCategory.join(","))
+         selectedFilters,currentSort, currentCategory.join(","),search)
       .then((data) => {
         setProductsData(data);
         setProducts(data.products);

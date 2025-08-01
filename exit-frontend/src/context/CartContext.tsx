@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import type { CartContextType, CartItem } from "../types/cart";
+import { useToast } from "./ToastContext";
 
 export const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -14,6 +15,7 @@ const STORAGE_KEY = "cart_items";
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+
     const stored = localStorage.getItem(STORAGE_KEY);
     try {
       return stored ? JSON.parse(stored) : [];
@@ -21,6 +23,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       return [];
     }
   });
+const {showToast} = useToast()
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
@@ -36,6 +39,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prev, item];
     });
+    showToast("Adăugat în coș")
   }, []);
 
   const removeFromCart = useCallback((id: number) => {
@@ -48,6 +52,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
       )
     );
+
   }, []);
 
   const clearCart = useCallback(() => {

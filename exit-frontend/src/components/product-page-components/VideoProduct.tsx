@@ -8,7 +8,7 @@ type VideoProductProps ={
 const VideoProduct = ({video}: VideoProductProps) => {
   return (
     <div  className="bg-[#FAFAFA]  relative mt-5 rounded-xl border-[rgba(var(--color-gray-rgb),0.13)] border-1">
-    <div className="flex items-stretch"> 
+    <div className="sm:flex items-stretch"> 
     <div className="w-[50%] overflow-hidden rounded-lg">
       <video
         muted

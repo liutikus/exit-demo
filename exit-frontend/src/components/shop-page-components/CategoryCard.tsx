@@ -61,7 +61,6 @@ useEffect(() => {
     }
   }
 
- console.log(subCategories)
 
   return (
     <div className="border-1 p-2 border-[rgba(var(--color-gray-rgb),0.26)] rounded-xl my-4">

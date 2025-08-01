@@ -27,17 +27,20 @@ const MainHero = () => {
 
  <div className="absolute inset-0 bg-[var-color-acccent] opacity-50" />
 
- <div className="relative flex items-center">
-   <div className="w-[50%] lg:w-[30%] pl-4 md:pl-20 text-white z-10">
+ <div className="relative sm:flex items-center">
+   <div className="sm:w-[50%] lg:w-[30%] pl-4 md:pl-20  text-white z-10">
      <button className="hidden sm:inline px-5 lg:px-10 font-semibold border-1 py-3 rounded-full border-[var(--color-accent)] hover:text-white hover:bg-[var(--color-accent)] transition-all ease-in-out duration-200 cursor-pointer text-[var(--color-accent)]">
        Descoperă viitorul!
      </button>
-     <h1 className="md:text-2xl xl:text-5xl pt-2 pb-2 sm:pt-4 sm:pb-3 lg:pt-5 lg:pb-8 font-bold">{heroData?.title}</h1>
-     <h2 className="text-sm md:text-lg pb-4 sm:pb-10 text-[var(--color-gray)]">{heroData?.sub_title}</h2>
+     <h1 className="md:text-2xl xl:text-5xl pb-2  sm:pb-3  lg:pb-8 font-bold">{heroData?.title}</h1>
+     <h2 className="text-sm md:text-lg pb-0 lg:pb-2  text-[var(--color-gray)]">{heroData?.sub_title}</h2>
+     <div className="py-2">
      <ColoredBtn text="Fii Primul" isTextBold={true} />
+
+     </div>
    </div>
 
-   <div className="w-[50%] lg:w-[70%] z-10">
+   <div className="sm:w-[50%] lg:w-[70%] z-10">
      <img src={BaseURL + heroData?.image.url} alt="image" />
    </div>
  </div>

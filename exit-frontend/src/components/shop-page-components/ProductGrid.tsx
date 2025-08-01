@@ -11,7 +11,7 @@ type ProductGridProps = {
 
 const ProductGrid = ({products, productsData, currentPage, handlePageChange}: ProductGridProps) => {
   return (
-    <div className="py-10 relative">
+    <div className="py-15 relative">
                     <div
                      className="grid grid-cols-[repeat(auto-fit,_minmax(245px,_1fr))] gap-6"
                      >

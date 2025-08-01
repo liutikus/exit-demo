@@ -4,6 +4,8 @@ import SimpleBtn from "./buttons/SimpleBtn"
 import { useRef } from "react"
 import type { Product } from "../types/types"
 import ProductCard from "./card-components/ProductCard"
+import { Link } from "react-router"
+
 
 type ProductsCarouselProps = {
     title: string,
@@ -40,9 +42,15 @@ const ProductsCarousel = ({title, isDark, products} : ProductsCarouselProps) => 
                 <h1 className="font-bold text-3xl">{title}</h1>
             </div>
             <div className="hidden md:flex items-center gap-3">
+                 <Link
+            to={"/shop"}>
+                <div>
                 <SimpleBtn isSquare={false}>
                     <p>Vezi toate produsele</p>
                 </SimpleBtn>
+
+                </div>
+            </Link>
                 <div 
                 onClick={()=>{scrollCarousel("left")}}
                 >
@@ -82,9 +90,15 @@ const ProductsCarousel = ({title, isDark, products} : ProductsCarouselProps) => 
 
         </div>
         <div className="flex md:hidden items-center justify-between gap-3 pt-2">
+            <Link
+            to={"/shop"}>
+                <div>
                 <SimpleBtn isSquare={false}>
                     <p>Vezi toate produsele</p>
                 </SimpleBtn>
+
+                </div>
+            </Link>
                 <div className="flex gap-1">
                 <div 
                 onClick={()=>{scrollCarousel("left")}}
