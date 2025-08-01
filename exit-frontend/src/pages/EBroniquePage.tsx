@@ -10,7 +10,6 @@ const EBroniquePage = () => {
       <NavBar isDark={true}/>
       <EBroniqueHero/>
       <EBroniqueAbout/>
-
       <Footer/>
     </div>
   )
