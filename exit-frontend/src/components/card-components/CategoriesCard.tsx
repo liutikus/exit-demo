@@ -13,7 +13,7 @@ const CategoriesCard = ({btnText, img} : CategoriesCardProps) => {
   <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
 
   <div className="absolute bottom-0 left-0 z-20 w-full flex justify-center pb-6">
-    <RoundedBtn text={btnText} isTextBlack={false} />
+    <RoundedBtn handleClick={()=>console.log()} text={btnText} isTextBlack={false} />
   </div>
 </div>
   )

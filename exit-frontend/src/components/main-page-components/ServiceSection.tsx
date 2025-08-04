@@ -7,12 +7,12 @@ const ServiceSection = () => {
     <section className="py-6">
       <PaddingContainer>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-stretch">
-            {services.map(({img,title,btnText},index)=>(
+            {services.map(({img,title,btnText,link},index)=>(
               <div
               key={index}
               
               >
-                <ServiceCard title={title} btnText={btnText} img={img}/>
+                <ServiceCard title={title} link={link} btnText={btnText} img={img}/>
               </div>
             ))}
         </div>

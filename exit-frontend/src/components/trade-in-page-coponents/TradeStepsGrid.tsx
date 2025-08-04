@@ -2,11 +2,15 @@ import { tradeSteps } from "../../data/data"
 import ColoredBtn from "../buttons/ColoredBtn"
 import PaddingContainer from "../PaddingContainer"
 
-const TradeStepsGrid = () => {
+type TradeStpesGridProps = {
+  handleClick:()=>void;
+}
+
+const TradeStepsGrid = ({handleClick}: TradeStpesGridProps) => {
   return (
     <div className="py-10">
         <PaddingContainer>
-           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-stretch">
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
   {tradeSteps.map(({ stepNumber, bgColor, title, description }, index) => (
     <div
       key={index}
@@ -20,7 +24,9 @@ const TradeStepsGrid = () => {
         <p className="opacity-40">{description}</p>
       </div>
 
-      <div className="mt-auto pt-15">
+      <div 
+      onClick={handleClick}
+      className="mt-auto pt-15">
         <ColoredBtn text={"Adaugă dispozitivul"} isTextBold={true} />
       </div>
     </div>

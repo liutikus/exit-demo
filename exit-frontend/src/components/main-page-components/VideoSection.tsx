@@ -24,7 +24,7 @@ const VideoSection = () => {
 
                     <h2 className="text-2xl font-bold pb-2 md:pb-0 md:w-[80%]">{videoData?.title}</h2> 
                     </div>
-                    <ColoredBtn text="Fii Primul"/>
+                    <ColoredBtn isTextBold={true} text="Fii Primul"/>
 
                 </div>
                <VideoComponent videoUrl = {videoData?.video.url}/>

@@ -4,15 +4,19 @@ import type { HeroData } from "../../types/types"
 import ColoredBtn from "../buttons/ColoredBtn"
 import PaddingContainer from "../PaddingContainer"
 import BgImage from "/img/bg/main-hero-bg.png"
+import LoadingSpinner from "../LoadingSpinner"
 
 const MainHero = () => {
 
   const [heroData, setHeroData] = useState<HeroData | null>(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
+    setLoading(true)
     fetchMainHero()
       .then(setHeroData)
       .catch(console.error)
+      .finally(()=>setLoading(false))
   },[])
 
   return (
@@ -41,7 +45,9 @@ const MainHero = () => {
    </div>
 
    <div className="sm:w-[50%] lg:w-[70%] z-10">
-     <img src={BaseURL + heroData?.image.url} alt="image" />
+    {loading ? (<LoadingSpinner/>) : (
+      <img src={BaseURL + heroData?.image.url} alt="image" />
+    )}
    </div>
  </div>
 </div>

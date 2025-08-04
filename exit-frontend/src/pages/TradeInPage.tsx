@@ -28,7 +28,7 @@ const TradeInPage = () => {
       handleClose={()=>setIsCalculatorOpen(false)}
       />
       <TradeInHero handleClick={()=>setIsCalculatorOpen(true)}/>
-      <TradeStepsGrid/>
+      <TradeStepsGrid handleClick={()=>setIsCalculatorOpen(true)}/>
       <div
       className="py-10"
       >

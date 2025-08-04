@@ -18,15 +18,20 @@ export const pageSize = 10;
 export const services = [{
     title: "Personalizarea Gadgetului",
     btnText: "Peliculă Bronată",
-    img:"/img/service-img/personalize-service.png"
+    img:"/img/service-img/personalize-service.png",
+    link:"/e-bronique"
 },{
     title: "Service Centru",
     btnText: "Centru de reparații",
-    img:"/img/service-img/repair-service.png"
+    img:"/img/service-img/repair-service.png",
+    link:"/service"
+
 },{
     title: "Trade in Recycle",
     btnText: "Re-utilizează gadgetul tău",
-    img:"/img/service-img/trade-service.png"
+    img:"/img/service-img/trade-service.png",
+    link:"/trade-in"
+
 },]
 
 export const categoriesData = [{

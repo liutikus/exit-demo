@@ -1,4 +1,5 @@
 import { BaseURL } from "../api/strapi"
+import LoadingSpinner from "./LoadingSpinner"
 
 type VideoComponentProps =  {
     videoUrl: string | undefined
@@ -11,8 +12,10 @@ const VideoComponent = ({videoUrl} : VideoComponentProps) => {
   <video  muted loop playsInline className="w-full rounded-2xl h-auto ">
     <source src={BaseURL + videoUrl} type="video/mp4" />
   </video>
-) : (
-  <p>Loading video...</p>
+) : (<div className="py-20">
+  <LoadingSpinner/>
+
+</div>
 )}
                 </div>
   )

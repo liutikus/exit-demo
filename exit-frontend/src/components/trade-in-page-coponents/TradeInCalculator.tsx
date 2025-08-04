@@ -25,7 +25,7 @@ const [selectedConfiguration, setSelectedConfiguration] = useState<{name:string;
     const [name,setName] = useState("")
     const [phone, setPhone] = useState("")
     const [colors,setColors] = useState<[{documentId:string, name:string}] | null>(null)
-    const [configuration, setConfiguration] = useState<
+    const [configuration] = useState<
         { documentId: string; name: string }[]
         >([
         { name: "16 GB", documentId: "16gb" },
@@ -131,7 +131,7 @@ const [selectedConfiguration, setSelectedConfiguration] = useState<{name:string;
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           ></div>
 
-          <div className="relative  bg-[var(--color-exit-black)] no-scrollbar text-white/90 rounded-xl p-15 max-w-3xl w-full z-10 max-h-[90vh] overflow-y-auto">
+          <div className="relative mx-10 md:mx-0 bg-[var(--color-exit-black)] no-scrollbar text-white/90 rounded-xl p-15 max-w-3xl w-full z-10 max-h-[90vh] overflow-y-auto">
           <h2 className="text-center text-2xl font-bold py-5">Dispozitivul dvs. vechi</h2>
           <button 
           onClick={handleClose}

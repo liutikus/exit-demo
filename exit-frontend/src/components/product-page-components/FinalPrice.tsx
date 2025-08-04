@@ -1,7 +1,7 @@
 import type { Color, MemoryOption, Product } from "../../types/types"
 import SquareBtn from "../buttons/SquareBtn"
 import CheckIcon from "../../assets/icons/check-icon.svg?react"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import { useCart } from "../../hooks/useCart"
 import RecomendedPopUp from "./RecomendedPopUp"
 import RatePopUp from "./RatePopUp"

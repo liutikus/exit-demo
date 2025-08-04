@@ -3,7 +3,6 @@ import { useCart } from "../../hooks/useCart"
 import type { CartItem } from "../../types/cart"
 import MinusIcon from "../../assets/icons/minus-icon.svg?react"
 import PlusIcon from "../../assets/icons/plus-icon.svg?react"
-import MemoryOptions from "../product-page-components/MemoryOptions"
 
 
 

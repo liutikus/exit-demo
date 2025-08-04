@@ -1,4 +1,4 @@
-import { Link, useNavigate, useSearchParams } from "react-router"
+import { Link, useNavigate } from "react-router"
 import AppleLogo from "../../assets/icons/apple-auth.svg?react"
 import ExitLogo from "../../assets/icons/exit-logo.svg?react"
 import { useEffect, useState } from "react"
@@ -22,7 +22,6 @@ const MobileMenu = ({isMenuOpen, setIsMenuOpen, searchValue,setSearchValue } : M
 
     const {totalItems, total} = useCart()
 
-    const [searchParams, setSearchParams] = useSearchParams();
         const [categories, setCategories] = useState<Category[] | null>(null)
         const navigate = useNavigate();
         const [isOpen, setIsOpen] = useState(false)
@@ -47,7 +46,7 @@ const MobileMenu = ({isMenuOpen, setIsMenuOpen, searchValue,setSearchValue } : M
     <>
  <div
   className={`fixed top-0 left-0 h-full w-[80%] sm:w-[60%] max-w-sm 
-  bg-white dark:bg-black z-[60] 
+  bg-white dark:bg-black z-[60]  dark:text-white
   transform transition-transform duration-300   overflow-y-auto no-scrollbar
   ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
 >

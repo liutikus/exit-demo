@@ -26,10 +26,10 @@ const ShopSection = () => {
     const [products, setProducts] = useState<Product[] | null>(null);
     const [categories, setCategories] = useState<Category[] | null>(null)
     const [isFiltersOpen, setIsFiltersOpen] = useState(false)
-    const [sizes, setSizes] = useState<FiltredData[] | null>(null)
-    const [colors, setColors] = useState<FiltredData[] | null>(null)
-    const [brands, setBrands] = useState<FiltredData[] | null>(null)
-    const [productTypes, setProductTypes] = useState<FiltredData[] | null>(null)
+    const [, setSizes] = useState<FiltredData[] | null>(null)
+    const [, setColors] = useState<FiltredData[] | null>(null)
+    const [, setBrands] = useState<FiltredData[] | null>(null)
+    const [, setProductTypes] = useState<FiltredData[] | null>(null)
     const [currentCategory, setCurrentCategory] = useState<string[]>(
   categoryParam ? categoryParam.split(",") : ["i-phone"]
 );
