@@ -208,6 +208,8 @@ export const freeDeliveryValue = 100000;
 export const cartPath = "/cart";
 export const shopPath = "/shop"
 export const productPath = "/product"
+export const tradeInPath = "/trade-in"
+export const aboutPath="/about"
 
 export const allowedSubNavCategories = ['i-phone', "watch", "air-pods", "mac-book", "accesories", "entertainment"]
 

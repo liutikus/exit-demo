@@ -17,14 +17,6 @@ const BestForYouProducts = ({products}: BestForYouProductsProps) => {
                 >
                     <BestForYouCard product={product}/>
                 </div>
-                {index === 0 && (
-
-                 <div
-                key={index}
-                >
-                    <BestForYouCard product={product}/>
-                </div>
-                )}
                 </>
             ))} 
         </div>

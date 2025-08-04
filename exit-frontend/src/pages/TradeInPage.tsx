@@ -8,21 +8,26 @@ import type { VideoData } from "../types/types"
 import { fetchTradeInVideo } from "../api/strapi"
 import PaddingContainer from "../components/PaddingContainer"
 import FaqSection from "../components/FaqSection"
+import TradeInCalculator from "../components/trade-in-page-coponents/TradeInCalculator"
 
 const TradeInPage = () => {
 
     const [videoData, setVideoData] = useState<VideoData | null>(null)
+    const [isCalculatorOpen,setIsCalculatorOpen] = useState(false)
 
     useEffect(()=>{
         fetchTradeInVideo()
             .then(setVideoData)
             .catch(err=>console.error(err.message))
     },[])
-console.log(videoData)
   return (
     <div className="bg-[var(--color-black)] text-white">
       <NavBar isDark={true}/>
-      <TradeInHero/>
+      <TradeInCalculator 
+      isOpen={isCalculatorOpen}
+      handleClose={()=>setIsCalculatorOpen(false)}
+      />
+      <TradeInHero handleClick={()=>setIsCalculatorOpen(true)}/>
       <TradeStepsGrid/>
       <div
       className="py-10"

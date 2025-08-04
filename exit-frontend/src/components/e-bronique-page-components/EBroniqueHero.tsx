@@ -7,7 +7,7 @@ const EBroniqueHero = () => {
   return (
      <PaddingContainer>
             <div className="bg-[linear-gradient(to_top,_#121212,_rgba(255,255,255,0.05))] text-white border-[rgba(var(--color-gray-rgb),0.26)] border-1 rounded-xl my-10 ">
-                <div className="flex justify-between items-end">
+                <div className="md:flex justify-between items-end">
     <div className="flex">
         <div className="flex flex-col items-start gap-y-2 sm:gap-y-8 p-4 sm:p-15">
             <EBroniqueLogo className='w-auto h-13'/>

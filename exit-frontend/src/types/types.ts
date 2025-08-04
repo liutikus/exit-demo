@@ -4,6 +4,11 @@ export type Category = {
     id:number,
     products:Product[],
     subCategories:[Category]
+    documentId:string
+    device_models:[{
+        name:string
+        documentId:string
+    }]
 }
 
 export type Product = {
@@ -78,6 +83,12 @@ export type HeroData = {
     highlighted_title: string | null
 }
 
+export type Installment={
+    number_of_installments:number
+    interest_rate:number
+    id:number
+}
+
 export type VideoData = {
     video: {
         url: string
@@ -119,7 +130,13 @@ export type SelectedFilters = {
   is_in_stock:string[]
 }
 
+export type Color ={id:number,name:string,hex_code:string}
 
+export type MemoryOption = {
+        price:number,
+        memory_value:string,
+      
+    }
 
 export type CategoryProductCount={
     total:number,

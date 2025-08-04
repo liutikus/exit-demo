@@ -1,19 +1,26 @@
-import type { Product } from "../../types/types"
+import type { Color, MemoryOption, Product } from "../../types/types"
 import SquareBtn from "../buttons/SquareBtn"
 import CheckIcon from "../../assets/icons/check-icon.svg?react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useCart } from "../../hooks/useCart"
-import { useNavigate } from "react-router"
+import RecomendedPopUp from "./RecomendedPopUp"
+import RatePopUp from "./RatePopUp"
 
 type FinalPriceProps = {
     product: Product
+    selectedMemory:MemoryOption | null
+    selectedColor:Color |null
+    finalPrice:number
 }
 
-const FinalPrice = ({product} : FinalPriceProps) => {
+const FinalPrice = ({product,finalPrice, selectedColor, selectedMemory} : FinalPriceProps) => {
 
     const [isNowPay, setIsNowPay] = useState(true)
     const {addToCart, } = useCart();
-    const navigate = useNavigate()
+
+
+    const [isPopUpOpen, setIsPopUpOpen] = useState(false)
+    const [isRatePopUpOpen, setIsRatePopUpOpen] = useState(false)
 
   return (
     <div className="pt-10">
@@ -22,15 +29,17 @@ const FinalPrice = ({product} : FinalPriceProps) => {
             onClick={()=>setIsNowPay(!isNowPay)}
             className={`${!isNowPay ? "border-[rgba(var(--color-gray-rgb),0.13)]" : "border-[var(--color-accent)]"} bg-white sm-4 md:mb-0 p-7 w-full border-1 rounded-lg cursor-pointer `}>
                     <h2 className="font-bold text-lg pb-2 ">Prețul final:</h2>
-                    <p className="flex gap-2 text-lg">{product.start_price.toLocaleString()}  Lei
-                        <s className="opacity-40">{product.start_price.toLocaleString()} Lei 
+                    <p className="flex gap-2 text-lg">{finalPrice.toLocaleString()}  Lei
+                        <s className="opacity-40">{selectedMemory?.price} Lei 
                             </s></p>
             </div>
             <div 
-            onClick={()=>setIsNowPay(!isNowPay)}
+            onClick={()=>{
+              setIsRatePopUpOpen(true)
+              setIsNowPay(!isNowPay)}}
             className={`${isNowPay ? "border-[rgba(var(--color-gray-rgb),0.13)]" : "border-[var(--color-accent)]"} bg-white p-7 w-full border-1 rounded-lg cursor-pointer `}>
                     <h2 className="font-bold text-lg pb-2 ">Rate lunare de la:</h2>
-                    <p className="flex gap-2 text-lg opacity-40">{product.start_price.toLocaleString()}  Lei
+                    <p className="flex gap-2 text-lg opacity-40">{finalPrice.toLocaleString()}  Lei
                         <span className="underline cursor-pointer"> Vezi Detalii</span></p>
             </div>
 
@@ -40,14 +49,40 @@ const FinalPrice = ({product} : FinalPriceProps) => {
                 <p className="opacity-80 text-sm">Usually ready in 24 hours <span className="underline cursor-pointer">View store information</span></p>
         </div>
         <div className="flex flex-col space-y-2 pt-4">
-      <SquareBtn handleClick={()=>addToCart({
-        id:product.id,
-        product,
-        quantity:1
-      })} text={"Adaugă în coș"} isDark={true}/>
-      <SquareBtn handleClick={()=>navigate("/checkout")} text={"Cumpără acum"} isDark={false}/>
+  <SquareBtn
+  handleClick={() => {
+    setIsPopUpOpen(true)
+  }}
+  text="Adaugă în coș"
+  isDark={true}
+/>
+      <SquareBtn handleClick={()=>{
+        setIsPopUpOpen(true)
+        }} text={"Cumpără acum"} isDark={false}/>
 
         </div>
+        <RecomendedPopUp 
+        isOpen={isPopUpOpen}
+         setIsOpen={(val:boolean)=> setIsPopUpOpen(val)}
+         product={product}
+         addMainProductToCart={() => {
+    const item = {
+      id: product.id,
+      product,
+      quantity: 1,
+      ...(selectedColor && { selectedColor }),   
+      ...(selectedMemory && { selectedMemory }) 
+    };
+    addToCart(item);
+    setIsPopUpOpen(false)
+  }}
+         />
+         <RatePopUp 
+         isOpen={isRatePopUpOpen}
+         setIsOpen={val=>setIsRatePopUpOpen(val)
+         }
+         finalPrice={finalPrice}
+         />
     </div>
   )
 }

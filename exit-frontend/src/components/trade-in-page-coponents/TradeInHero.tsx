@@ -2,7 +2,11 @@ import ColoredBtn from "../buttons/ColoredBtn"
 import PaddingContainer from "../PaddingContainer"
 import TradeInHeroImg from "/img/bg/Trade_in_Banner.png"
 
-const TradeInHero = () => {
+type TradeInHeroProps ={
+    handleClick: ()=>void
+}
+
+const TradeInHero = ({handleClick}: TradeInHeroProps) => {
   return (
       
       <PaddingContainer>
@@ -13,7 +17,11 @@ const TradeInHero = () => {
         <h2 className="text-lg sm:text-4xl font-bold">Faceți schimb. Upgrade. Economisește. Sau reciclează-l gratuit.</h2>
         <p className="opacity-30 text-sm">Vizitează site-ul nostru sau vino într-un magazin EXIT Service pentru a evalua starea iPhone-ului tău. Oferă detalii precum modelul, capacitatea de stocare și eventualele daune vizibile. </p>
         <p className="opacity-30 text-sm">Vei primi instant o estimare preliminară a valorii dispozitivului tău.</p>
+        <div
+        onClick={handleClick}
+        >
         <ColoredBtn text={"Estimează valoarea"} isTextBold={true}/>
+        </div>
 
         </div>
    

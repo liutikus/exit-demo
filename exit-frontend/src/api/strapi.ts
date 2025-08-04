@@ -9,6 +9,53 @@ export const fetchCategories = async () => {
   return data.data;
 };
 
+export const fetchCategoryDeviceModels = async (documentId:string) => {
+  const url = new URL(`${BaseURL}/api/categories/${documentId}`);
+    url.searchParams.append("populate[device_models]", "true"); 
+
+  const res = await fetch(url.toString());
+  const data = await res.json();
+  return data.data;
+ 
+};
+
+export const fetchInstallments = async () => {
+  const url = new URL(`${BaseURL}/api/installments`);
+
+  const res = await fetch(url.toString());
+  const data = await res.json();
+  return data.data;
+ 
+};
+
+export const fetchProductsByBrandAndCategory = async (
+  brandName: string,
+  currentPage: number,
+  pageSize: number
+) => {
+  const url = new URL(`${BaseURL}/api/products`);
+
+  url.searchParams.append("pagination[page]", currentPage.toString());
+  url.searchParams.append("pagination[pageSize]", pageSize.toString());
+
+  url.searchParams.append("populate[mainImage]", "true");
+  url.searchParams.append("populate[brand]", "true");
+  url.searchParams.append("populate[categories]", "true");
+
+  url.searchParams.append("filters[brand][name][$eq]", brandName);
+  url.searchParams.append("filters[categories][slug][$eq]", "accesories");
+console.log(url.toString())
+  const res = await fetch(url.toString());
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`Failed to fetch products: ${res.status} ${errText}`);
+  }
+  const data = await res.json();
+  return data.data;
+};
+
+
+
 export const fetchProducts = async (currentPage : number, pageSize : number ) => {
   const url = new URL(`${BaseURL}/api/products?pagination[page]=${currentPage}&pagination[pageSize]=${pageSize}`);
     url.searchParams.append("populate[subCategories]", "true"); 

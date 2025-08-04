@@ -3,11 +3,12 @@ import { useCart } from "../../hooks/useCart"
 import type { CartItem } from "../../types/cart"
 import MinusIcon from "../../assets/icons/minus-icon.svg?react"
 import PlusIcon from "../../assets/icons/plus-icon.svg?react"
+import MemoryOptions from "../product-page-components/MemoryOptions"
 
 
 
 
-const CartDetailsCard = ({id, product, quantity}: CartItem) => {
+const CartDetailsCard = ({id, product, quantity,selectedColor, selectedMemory}: CartItem) => {
 
     const {removeFromCart, updateQuantity} = useCart()
 
@@ -21,21 +22,29 @@ const CartDetailsCard = ({id, product, quantity}: CartItem) => {
       />
     </div>
     <div>
-      <h4 className="text-lg font-semibold truncate max-w-[200px]">{product.title}</h4>
+     <h4 className="text-lg font-semibold truncate max-w-[200px]">
+  {product.title}
+  <br />
+  {selectedColor || selectedMemory ? (
+    `(${selectedColor ? selectedColor.name : ""}${selectedColor && selectedMemory ? ", " : ""}${selectedMemory ? selectedMemory.memory_value : ""})`
+  ) : null}
+</h4>
       <button
-      onClick={()=>removeFromCart(id)}
+        onClick={() =>
+    removeFromCart(id, selectedColor?.id, selectedMemory?.memory_value)
+  }
        className="px-3 py-1 mt-2 cursor-pointer rounded-md text-[var(--color-red)]  bg-[var(--color-bg-white)] hover:bg-red-50 transition">
         Șterge
       </button>
     </div>
   </div>
 
-  <div className="text-lg">{product.start_price.toLocaleString()} Lei</div>
+  <div className="text-lg">{selectedMemory ? selectedMemory.price.toLocaleString() : product.start_price.toLocaleString()} Lei</div>
 
   <div className="text-lg flex items-center  gap-2">
     <button 
     className="w-10 h-10  flex items-center justify-center bg-white cursor-pointer hover:bg-[var(--color-bg-white)] border-2 rounded-md border-[rgba(var(--color-gray-rgb),0.1)] "
-    onClick={()=>updateQuantity(id, quantity-1)}
+    onClick={()=>updateQuantity(id, quantity-1,  selectedColor?.id, selectedMemory?.memory_value)}
     >
         <MinusIcon className="h-auto w-2.5"/>
     </button>
@@ -46,18 +55,25 @@ const CartDetailsCard = ({id, product, quantity}: CartItem) => {
     [&::-webkit-inner-spin-button]:appearance-none 
     [-moz-appearance:textfield]"
   value={quantity}
-  onChange={(e) => updateQuantity(id, Number(e.target.value))}
+  onChange={(e) =>
+    updateQuantity(
+      id,
+      +e.target.value,
+      selectedColor?.id,
+      selectedMemory?.memory_value
+    )
+  }
 />
     <button
     className="w-10 h-10  flex items-center justify-center bg-white cursor-pointer hover:bg-[var(--color-bg-white)] border-2 rounded-md border-[rgba(var(--color-gray-rgb),0.1)] "
-    onClick={()=>updateQuantity(id, quantity +1)}
+    onClick={()=>updateQuantity(id, quantity +1,   selectedColor?.id, selectedMemory?.memory_value)}
 
     >
         <PlusIcon className="h-2.5 w-auto"/>
     </button>
   </div>
 
-  <div className="text-lg">{(product.start_price * quantity).toLocaleString()} Lei</div>
+  <div className="text-lg">{(selectedMemory ? selectedMemory.price : product.start_price * quantity).toLocaleString()} Lei</div>
   </>)
 }
 

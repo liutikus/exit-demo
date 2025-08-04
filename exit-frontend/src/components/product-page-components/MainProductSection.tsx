@@ -23,12 +23,10 @@ const MainProductSection = () => {
   const [video, setVideo] = useState<VideoData | null>(null);
   const [error, setError] = useState("");
 
-  // Related products
   const [bestProducts, setBestProducts] = useState<Product[] | null>(null);
   const [newProducts, setNewProducts] = useState<Product[] | null>(null);
   const [onSaleProducts, setOnSaleProducts] = useState<Product[] | null>(null);
 
-  // Loading states
   const [loadingBest, setLoadingBest] = useState(false);
   const [loadingNew, setLoadingNew] = useState(false);
   const [loadingSale, setLoadingSale] = useState(false);

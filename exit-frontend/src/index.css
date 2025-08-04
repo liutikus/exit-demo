@@ -7,6 +7,7 @@
   --color-accent-rgb:75, 227, 156;
   --color-accent-rgb: 75,227,156;
   --color-black: #000000;
+  --color-exit-black:#121212;
   --color-light-black: rgba(18, 18, 18, 0.05);
   --color-black-rgb: 18,18,18;
   --color-light-gray: #FAFAFA;
@@ -17,7 +18,7 @@
   --color-gold:#FFB000;
   --color-purple:#4F1E97;
   --color-bg-white:#F5F5F7;
-  --color-red:#D3000D;
+  --color-dark-red:#3E0004;
   
 }
 
@@ -27,4 +28,40 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+@font-face {
+  font-family: "Helix";
+  src: url("/src/assets/fonts/Helix-Light.woff2") format("woff2"),
+       url("/src/assets/fonts/Helix-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helix";
+  src: url("/src/assets/fonts/Helix-Regular.woff2") format("woff2"),
+       url("/src/assets/fonts/Helix-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helix";
+  src: url("/src/assets/fonts/Helix-SemiBold.woff2") format("woff2"),
+       url("/src/assets/fonts/Helix-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Helix";
+  src: url("/src/assets/fonts/Helix-Bold.woff2") format("woff2"),
+       url("/src/assets/fonts/Helix-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  font-family: "Helix", sans-serif;
 }

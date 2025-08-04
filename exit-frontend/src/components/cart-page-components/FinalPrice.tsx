@@ -4,11 +4,13 @@ import { freeDeliveryValue } from "../../data/data"
 import { useCart } from "../../hooks/useCart"
 import CheckIcon from "../../assets/icons/check-icon.svg?react"
 import SquareBtn from "../buttons/SquareBtn"
+import { useNavigate } from "react-router"
 
 const FinalPrice = () => {
 
     const {total} = useCart()
     const [isChecked, setIsChecked] = useState(false)
+  const navigate = useNavigate()
 
     const checkFreeDelivery = ()=>{
         if(total>=freeDeliveryValue){
@@ -45,7 +47,7 @@ const FinalPrice = () => {
 </label>
             </div>
       <div>
-        <SquareBtn isDark={false} text="Finalizeaza Comanda"/>
+        <SquareBtn handleClick={()=>navigate("/checkout")} isDark={false} text="Finalizeaza Comanda"/>
       </div>
       </div>
     </div>

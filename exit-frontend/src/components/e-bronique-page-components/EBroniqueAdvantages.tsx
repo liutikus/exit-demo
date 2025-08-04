@@ -8,11 +8,11 @@ const EBroniqueAdvantages = () => {
 
   return (
     <div className="text-white py-10">
-        <div className="flex justify-between items-center">
-            <h2 className="text-4xl font-bold">Avantajele utilizării peliculei bronate</h2>
-            <ColoredBtn text="Vezi tipurile de pelicule" isTextBold={false}/>
+        <div className="md:flex justify-between items-center">
+            <h2 className="text-4xl pb-5 md:pb-0 font-bold">Avantajele utilizării peliculei bronate</h2>
+            <ColoredBtn text="Vezi  tipurile de pelicule" isTextBold={false}/>
         </div>
-        <div className="grid grid-cols-3 gap-6 py-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-5">
             {screenProtectorAdvantages.map(({title,description, id})=>(
                 <div
                 key={id}

@@ -17,9 +17,9 @@ const CartDetails = () => {
         <p>Total</p>
       </div>
 
-      {cartItems.map(({ id, product, quantity }) => (
-       <div key={id} className="grid grid-cols-5 items-center px-7 py-4 border-b-2 border-[rgba(var(--color-gray-rgb),0.1)]">
-        <CartDetailsCard product={product} id={id} quantity={quantity}/>
+      {cartItems.map(({ id, product, quantity,selectedColor, selectedMemory },index) => (
+       <div key={id.toString() + selectedColor +selectedMemory+index} className="grid grid-cols-5 items-center px-7 py-4 border-b-2 border-[rgba(var(--color-gray-rgb),0.1)]">
+        <CartDetailsCard product={product} id={id} quantity={quantity} selectedColor={selectedColor} selectedMemory={selectedMemory}/>
         </div>
       )) }
        

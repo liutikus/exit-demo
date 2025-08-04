@@ -6,8 +6,8 @@ const EBroniqueWhyUs = () => {
    <div className="text-white py-16">
   <h2 className="text-4xl font-bold mb-8">De ce să alegi peliculele noastre?</h2>
 
-  <div className="flex gap-8">
-    <div className="grid grid-cols-2 gap-6 flex-1">
+  <div className="md:flex gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
       {whyEBronique.map(({ title, description }, index) => (
         <div
           key={index}

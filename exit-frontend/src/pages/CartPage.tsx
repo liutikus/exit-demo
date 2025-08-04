@@ -9,6 +9,7 @@ import { useCart } from "../hooks/useCart"
 const CartPage = () => {
 
   const {cartItems} = useCart();
+  console.log(cartItems)
 
   return (
     <div className="text-[var(--color-black)] bg-[var(--color-bg-white)]">

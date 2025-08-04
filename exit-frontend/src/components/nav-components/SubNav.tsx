@@ -5,7 +5,7 @@ import NavCardsContainer from "./NavCardsContainer";
 import { fetchCategories, fetchProductsData } from "../../api/strapi";
 import type { Category, Product } from "../../types/types";
 import { Link } from "react-router-dom";
-import { allowedSubNavCategories } from "../../data/data";
+import { aboutPath, allowedSubNavCategories, shopPath, tradeInPath } from "../../data/data";
 import { useDebounce } from "../../data/useDebounce";
 
 const SubNav = () => {
@@ -71,7 +71,7 @@ const SubNav = () => {
                   allowedSubNavCategories.indexOf(b.slug)
               )
               .map(({ title, slug, id }) => (
-                <Link key={id} to={`/shop?category=${slug}`}>
+                <Link key={id} to={`${shopPath}?category=${slug}`}>
                   <div
                     onMouseEnter={() => handleMouseEnterCategory(slug, title)}
                     className="flex items-baseline gap-2 cursor-pointer"
@@ -91,7 +91,7 @@ const SubNav = () => {
 
           <div className="hidden xl:flex items-center gap-2">
             <Link
-            to={"/trade-in"}
+            to={`${tradeInPath}`}
             >
         <button
                 className="border dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]"
@@ -113,11 +113,15 @@ const SubNav = () => {
               >
                 Service Centru
               </button>
+              <Link
+              to={aboutPath}
+              >
               <button
                 className="border dark:bg-[rgba(var(--color-gray-rgb),0.26)] border-[rgba(var(--color-gray-rgb),0.46)] cursor-pointer py-2 px-4 rounded-md bg-[var(--color-light-gray)]"
               >
                 Despre Noi
               </button>
+              </Link>
           </div>
         </div>
 

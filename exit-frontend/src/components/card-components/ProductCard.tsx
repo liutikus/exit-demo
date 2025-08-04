@@ -69,7 +69,7 @@ const ProductCard = ({ product, isDark }: ProductCardProps) => {
         id:product.id,
         product,
         quantity:1
-      })} isTextBlack={!isDark} />
+      })} isTextBlack={!isDark}/>
     </div>
   </div>
 </div>

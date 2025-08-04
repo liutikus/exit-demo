@@ -29,31 +29,54 @@ const {showToast} = useToast()
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = useCallback((item: CartItem) => {
-    setCartItems(prev => {
-      const existing = prev.find(i => i.id === item.id);
-      if (existing) {
-        return prev.map(i =>
-          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
-        );
-      }
-      return [...prev, item];
-    });
-    showToast("Adăugat în coș")
-  }, []);
-
-  const removeFromCart = useCallback((id: number) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
-  }, []);
-
-  const updateQuantity = useCallback((id: number, quantity: number) => {
-    setCartItems(prev =>
-      prev.map(item =>
-        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
-      )
+const addToCart = useCallback((item: CartItem) => {
+  setCartItems(prev => {
+    const existing = prev.find(
+      i =>
+        i.id === item.id &&
+        i.selectedColor?.id === item.selectedColor?.id &&
+        i.selectedMemory?.memory_value === item.selectedMemory?.memory_value
     );
 
-  }, []);
+    if (existing) {
+      return prev.map(i =>
+        i.id === item.id &&
+        i.selectedColor?.id === item.selectedColor?.id &&
+        i.selectedMemory?.memory_value === item.selectedMemory?.memory_value
+          ? { ...i, quantity: i.quantity + item.quantity }
+          : i
+      );
+    }
+
+    return [...prev, item];
+  });
+  showToast("Adăugat în coș");
+}, [showToast]);
+
+const removeFromCart = useCallback((id: number, colorId?: number, memoryValue?: string) => {
+  setCartItems(prev =>
+    prev.filter(item =>
+      !(
+        item.id === id &&
+        item.selectedColor?.id === colorId &&
+        item.selectedMemory?.memory_value === memoryValue
+      )
+    )
+  );
+}, []);
+
+const updateQuantity = useCallback((id: number, quantity: number, colorId?: number, memoryValue?: string) => {
+  setCartItems(prev =>
+    prev.map(item =>
+      item.id === id &&
+      item.selectedColor?.id === colorId &&
+      item.selectedMemory?.memory_value === memoryValue
+        ? { ...item, quantity: Math.max(1, quantity) }
+        : item
+    )
+  );
+}, []);
+
 
   const clearCart = useCallback(() => {
     setCartItems([]);
@@ -62,7 +85,7 @@ const {showToast} = useToast()
   const total = useMemo(
     () =>
       cartItems.reduce(
-        (sum, item) => sum + item.product.start_price * item.quantity,
+        (sum, item) => item.selectedMemory? sum+item.selectedMemory.price * item.quantity : sum + item.product.start_price * item.quantity,
         0
       ),
     [cartItems]
